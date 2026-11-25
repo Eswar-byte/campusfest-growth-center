@@ -1,0 +1,2339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusFest Growth Center — Sponsorship Command & AI Copilot</title>
+<style>
+:root {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --surface-alt: #f8fafc;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-subtle: #64748b;
+  --primary: #0f766e;
+  --primary-hover: #0d9488;
+  --primary-soft: #f0fdfa;
+  --accent: #0284c7;
+  --warn: #d97706;
+  --warn-soft: #fffbeb;
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --success: #059669;
+  --success-soft: #ecfdf5;
+  --sidebar-bg: #0f172a;
+  --sidebar-text: #cbd5e1;
+  --radius: 10px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 230px;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border-right: 1px solid #1e293b;
+}
+.brand {
+  padding: 18px 16px 14px;
+  border-bottom: 1px solid #1e293b;
+}
+.brand-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #2dd4bf;
+  background: rgba(45, 212, 191, 0.12);
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.brand h1 {
+  font-size: 15px;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.brand p {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+.nav {
+  padding: 12px 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--sidebar-text);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+.nav-btn:hover { background: #1e293b; color: #ffffff; }
+.nav-btn.active { background: var(--primary); color: #ffffff; font-weight: 600; }
+.nav-pill {
+  font-size: 10.5px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  font-weight: 600;
+}
+.nav-pill.alert { background: #ef4444; }
+.sidebar-footer {
+  padding: 12px;
+  border-top: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.side-action {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 7px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: #e2e8f0;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.side-action:hover { background: #334155; }
+.side-action.danger { border-color: #7f1d1d; color: #fca5a5; }
+.side-action.danger:hover { background: #7f1d1d; color: #fff; }
+.author-note {
+  font-size: 10.5px;
+  color: #64748b;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* Main Workspace */
+.workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+.topbar {
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.topbar-left h2 { font-size: 15.5px; font-weight: 700; color: var(--text); }
+.topbar-left span { font-size: 11.5px; color: var(--text-subtle); }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.mode-toggle {
+  display: inline-flex;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2px;
+}
+.mode-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+.mode-btn.active { background: var(--surface); color: var(--primary); box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+.btn {
+  padding: 7px 12px;
+  border-radius: 7px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.btn:hover { background: var(--surface-alt); }
+.btn-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-sm { padding: 4px 8px; font-size: 11px; }
+.btn-danger { background: var(--danger-soft); border-color: #fecaca; color: var(--danger); }
+.btn-danger:hover { background: #fee2e2; }
+
+.main-split {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+.view-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 20px 28px;
+  min-width: 0;
+}
+
+/* Cards & Grids */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 14px;
+}
+.kpi-card.highlight { border-left: 4px solid var(--primary); }
+.kpi-card.warn { border-left: 4px solid var(--warn); }
+.kpi-card.danger { border-left: 4px solid var(--danger); }
+.kpi-title { font-size: 11px; font-weight: 600; color: var(--text-subtle); text-transform: uppercase; letter-spacing: 0.04em; }
+.kpi-value { font-size: 21px; font-weight: 800; color: var(--text); margin: 4px 0 2px; font-variant-numeric: tabular-nums; }
+.kpi-sub { font-size: 11.5px; color: var(--text-muted); }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+@media (max-width: 1180px) { .grid-2 { grid-template-columns: 1fr; } }
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 15px 16px;
+  margin-bottom: 16px;
+}
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.panel-title { font-size: 13.5px; font-weight: 700; color: var(--text); }
+.panel-sub { font-size: 11.5px; color: var(--text-subtle); }
+
+/* Visual Bars & Funnel */
+.funnel-row {
+  display: grid;
+  grid-template-columns: 150px 1fr 115px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.funnel-label { font-size: 12px; font-weight: 600; color: var(--text); }
+.funnel-track {
+  height: 22px;
+  background: var(--bg);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.funnel-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.funnel-meta { text-align: right; font-size: 11.5px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+.bar-group { margin-bottom: 11px; }
+.bar-group-top { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+.bar-dual { display: flex; gap: 4px; height: 14px; background: var(--bg); border-radius: 5px; overflow: hidden; }
+.bar-seg-cash { background: var(--primary); height: 100%; transition: width 0.3s; }
+.bar-seg-inkind { background: #38bdf8; height: 100%; transition: width 0.3s; }
+.bar-seg-stalled { background: #f59e0b; height: 100%; transition: width 0.3s; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th {
+  text-align: left;
+  padding: 8px 9px;
+  background: var(--surface-alt);
+  border-bottom: 1.5px solid var(--border);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+td {
+  padding: 8px 9px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+tr:hover td { background: #f8fafc; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.b-scale, .b-confirmed, .b-done { background: var(--success-soft); color: var(--success); }
+.b-change, .b-negotiating, .b-in_progress { background: var(--warn-soft); color: var(--warn); }
+.b-stop, .b-lost, .b-high { background: var(--danger-soft); color: var(--danger); }
+.b-neutral, .b-proposal_sent, .b-contacted, .b-prospecting, .b-todo, .b-withdrawn { background: #e2e8f0; color: #334155; }
+.b-info { background: #e0f2fe; color: #0369a1; }
+
+/* Forms & Filters */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; align-items: center; }
+input[type="text"], input[type="number"], input[type="date"], input[type="password"], select, textarea {
+  padding: 6px 9px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  background: var(--surface);
+  color: var(--text);
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid rgba(15, 118, 110, 0.25); border-color: var(--primary); }
+
+/* Simulator Sliders */
+.slider-row { margin-bottom: 12px; }
+.slider-head { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+input[type="range"] { width: 100%; accent-color: var(--primary); }
+
+/* AI Copilot Panel */
+.copilot-panel {
+  width: 390px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: width 0.2s;
+}
+.copilot-panel.collapsed { width: 0; border-left: none; overflow: hidden; }
+.copilot-head {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  background: #0f172a;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.copilot-head h3 { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block; }
+.copilot-mode-tag { font-size: 10px; color: #94a3b8; display: block; margin-top: 1px; }
+.copilot-chips {
+  padding: 8px 12px;
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.chip {
+  font-size: 10.5px;
+  padding: 4px 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.chip:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
+.copilot-msgs {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.msg {
+  max-width: 94%;
+  padding: 9px 11px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.48;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.msg.user {
+  align-self: flex-end;
+  background: var(--primary);
+  color: #fff;
+  border-bottom-right-radius: 2px;
+}
+.msg.bot {
+  align-self: flex-start;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-bottom-left-radius: 2px;
+}
+.msg.bot strong { color: #0f172a; }
+.evidence-tag {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #e2e8f0;
+  color: #334155;
+  font-weight: 600;
+}
+.action-card {
+  margin-top: 8px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #99f6e4;
+  border-left: 3px solid var(--primary);
+}
+.action-card-title { font-size: 11.5px; font-weight: 700; color: var(--primary); margin-bottom: 3px; }
+.action-card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 7px; }
+.action-card-btns { display: flex; gap: 6px; }
+.copilot-input-area {
+  padding: 10px 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 7px;
+  background: var(--surface);
+}
+.copilot-input-area input { flex: 1; }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: 12px;
+  width: 500px;
+  max-width: 94vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+}
+.modal h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 9px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+
+.callout-info {
+  background: var(--primary-soft);
+  border: 1px solid #99f6e4;
+  border-left: 4px solid var(--primary);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+.callout-warn {
+  background: var(--warn-soft);
+  border: 1px solid #fde68a;
+  border-left: 4px solid var(--warn);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+.toast {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #fff;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+  z-index: 1000;
+}
+.toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="brand">
+    <span class="brand-badge">Challenge B · Bengaluru</span>
+    <h1>CampusFest Growth Center</h1>
+    <p>Sponsorship Cash Command</p>
+  </div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="switchTab('overview')">
+      <span>1. Overview &amp; Funnel</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('diagnostics')">
+      <span>2. Diagnostics &amp; Guardrails</span>
+      <span class="nav-pill alert" id="nav-leak-badge">18</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('pipeline')">
+      <span>3. Pipeline &amp; Campaigns</span>
+      <span class="nav-pill" id="nav-opp-badge">58</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('tasks')">
+      <span>4. Execution &amp; Tasks</span>
+      <span class="nav-pill" id="nav-task-badge">5</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('simulator')">
+      <span>5. 2026 Strategy &amp; Sim</span>
+    </button>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="side-action" onclick="openApiModal()">⚙ AI Engine Settings</button>
+    <button class="side-action" onclick="exportStateJSON()">⬇ Export Live Data JSON</button>
+    <button class="side-action danger" onclick="resetDataset()">↺ Reset 2025 Baseline</button>
+    <div class="author-note">Sathi Eswar Prasad Reddy</div>
+  </div>
+</aside>
+
+<!-- WORKSPACE -->
+<div class="workspace">
+  <header class="topbar">
+    <div class="topbar-left">
+      <h2 id="view-title">Overview &amp; Sponsorship Funnel</h2>
+      <span id="view-subtitle">Grounded in deduplicated CampusFest Sponsor Dataset (180 brands · 58 opportunities · live recalculation)</span>
+    </div>
+    <div class="topbar-right">
+      <div class="mode-toggle" title="Switch target benchmark overlay">
+        <button class="mode-btn active" id="bench-2025" onclick="setBenchmark('2025')">2025 Targets</button>
+        <button class="mode-btn" id="bench-2026" onclick="setBenchmark('2026')">2026 Bengaluru Plan</button>
+      </div>
+      <button class="btn btn-primary" onclick="openOppModal()">+ New Deal</button>
+      <button class="btn" onclick="toggleCopilot()" id="toggle-copilot-btn">AI Copilot</button>
+    </div>
+  </header>
+
+  <div class="main-split">
+    <!-- DYNAMIC VIEW CONTAINER -->
+    <main class="view-scroll" id="main-view"></main>
+
+    <!-- EMBEDDED AI GROWTH COPILOT -->
+    <aside class="copilot-panel" id="copilot-panel">
+      <div class="copilot-head">
+        <div>
+          <h3><span class="status-dot"></span> AI Growth Analyst &amp; Copilot</h3>
+          <span class="copilot-mode-tag" id="copilot-mode-label">Live State Engine (Zero-Hallucination Local + Optional Gemini)</span>
+        </div>
+        <button class="btn btn-sm" style="background:#1e293b;color:#fff;border-color:#334155;" onclick="clearChat()">Clear</button>
+      </div>
+      <div class="copilot-chips">
+        <button class="chip" onclick="askPreset('Why did we miss the 28-deal target?')">Why did we miss target?</button>
+        <button class="chip" onclick="askPreset('Compare confirmed cash vs stalled pipeline by campaign')">Cash vs Stalled by campaign</button>
+        <button class="chip" onclick="askPreset('Which stalled deals should we prioritize and create tasks for?')">Prioritize stalled → Task</button>
+        <button class="chip" onclick="askPreset('Did Beardo activation increase festival attendance?')">Trap: Beardo attendance?</button>
+        <button class="chip" onclick="askPreset('Break down rep performance and ownership bottlenecks')">Rep bottlenecks</button>
+        <button class="chip" onclick="askPreset('What is our verified bank cash collected for 2025?')">Trap: 2025 bank receipts?</button>
+      </div>
+      <div class="copilot-msgs" id="chat-messages"></div>
+      <div class="copilot-input-area">
+        <input type="text" id="chat-input" placeholder="Ask about metrics, deals, bottlenecks, or actions..." onkeydown="if(event.key==='Enter') sendChat()">
+        <button class="btn btn-primary" onclick="sendChat()">Send</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- MODAL: ADD/EDIT OPPORTUNITY -->
+<div class="modal-backdrop" id="opp-modal">
+  <div class="modal">
+    <h3 id="opp-modal-title">Add / Edit Sponsorship Opportunity</h3>
+    <input type="hidden" id="opp-edit-id">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Brand Name</label>
+        <input type="text" id="opp-brand" placeholder="e.g. Ather Energy">
+      </div>
+      <div class="form-group">
+        <label>Industry</label>
+        <select id="opp-industry">
+          <option>Consumer products</option>
+          <option>Mobility</option>
+          <option>Food &amp; beverage</option>
+          <option>Education</option>
+          <option>Media</option>
+          <option>Personal care</option>
+          <option>FinTech / SaaS</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Originating Campaign</label>
+        <select id="opp-campaign"></select>
+      </div>
+      <div class="form-group">
+        <label>Owner</label>
+        <select id="opp-owner">
+          <option>Riya Kapoor</option>
+          <option>Nisha Rao</option>
+          <option>Meera Iyer</option>
+          <option>Kabir Shah</option>
+          <option>Sathi Eswar</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Pipeline Stage</label>
+        <select id="opp-stage">
+          <option value="prospecting">prospecting</option>
+          <option value="contacted">contacted</option>
+          <option value="proposal_sent">proposal_sent</option>
+          <option value="negotiating">negotiating</option>
+          <option value="confirmed">confirmed</option>
+          <option value="lost">lost</option>
+          <option value="withdrawn">withdrawn</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Support Type</label>
+        <select id="opp-support">
+          <option value="cash">cash</option>
+          <option value="in_kind">in_kind</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Proposed Value (₹)</label>
+        <input type="number" id="opp-proposed" step="5000" value="100000">
+      </div>
+      <div class="form-group">
+        <label>Confirmed Value (₹)</label>
+        <input type="number" id="opp-confirmed" step="5000" value="0">
+      </div>
+      <div class="form-group">
+        <label>Pre-Fest Cash Collected in Bank (₹)</label>
+        <input type="number" id="opp-collected" step="5000" value="0">
+      </div>
+      <div class="form-group">
+        <label>Days in Current Stage / Cycle</label>
+        <input type="number" id="opp-days" value="7" min="1">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('opp-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveOpp()">Save Deal &amp; Recalculate</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADD TASK -->
+<div class="modal-backdrop" id="task-modal">
+  <div class="modal">
+    <h3>Create Execution Task</h3>
+    <div class="form-grid">
+      <div class="form-group full">
+        <label>Task Title</label>
+        <input type="text" id="task-title" placeholder="e.g. Send 7% early-bird wire offer to negotiating deals">
+      </div>
+      <div class="form-group">
+        <label>Owner</label>
+        <select id="task-owner">
+          <option>Riya Kapoor</option>
+          <option>Nisha Rao</option>
+          <option>Meera Iyer</option>
+          <option>Kabir Shah</option>
+          <option>Sathi Eswar</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <select id="task-priority">
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Linked Campaign</label>
+        <select id="task-campaign"></select>
+      </div>
+      <div class="form-group">
+        <label>Deadline</label>
+        <input type="date" id="task-due" value="2026-02-20">
+      </div>
+      <div class="form-group full">
+        <label>Est. Cash Impact (₹)</label>
+        <input type="number" id="task-impact" step="10000" value="100000">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('task-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTask()">Create Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: GEMINI API SETTINGS -->
+<div class="modal-backdrop" id="api-modal">
+  <div class="modal">
+    <h3>AI Copilot Engine Configuration</h3>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">
+      By default, the Growth Center uses its built-in <strong>Deterministic Live-State Analytics Engine</strong> (zero latency, exact real-time math over mutated records, explicit uncertainty guardrails, no API key needed).
+      Optionally paste a free <strong>Google AI Studio Gemini API key</strong> to enhance open-ended synthesis with <code>gemini-2.5-flash</code> grounded in live app JSON.
+    </p>
+    <div class="form-group">
+      <label>Gemini API Key (stored locally in browser only)</label>
+      <input type="password" id="gemini-key-input" placeholder="AIzaSy...">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" onclick="clearApiKey()">Remove Key (Use Local Engine)</button>
+      <button class="btn" onclick="closeModal('api-modal')">Close</button>
+      <button class="btn btn-primary" onclick="saveApiKey()">Save Key</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// =========================================================================
+// 1. VERIFIED HISTORICAL DATASET (Exact reconciliation to Sponsor Dataset.xlsx)
+// =========================================================================
+const STORAGE_KEY = 'campusfest_growth_center_v1';
+const API_KEY_STORAGE = 'campusfest_gemini_api_key';
+
+function getInitialData() {
+  return {
+    meta: {
+      datasetName: 'CampusFest 2025 Historical Baseline (Deduplicated)',
+      totalBrands: 180,
+      totalContacts: 270,
+      repliedBrands: 109,
+      positiveReplies: 74,
+      meetingsHeld: 60,
+      optOuts: 7,
+      dormantBrands: 63,
+      historicalBankReceiptsRecorded: false,
+      assumedHistoricalCollectionRate: 0.75,
+      targets2025: {
+        initialQualified: 40,
+        revisedQualified: 55,
+        initialConfirmed: 20,
+        revisedConfirmed: 28,
+        cashTargetInr: 2500000
+      },
+      targets2026: {
+        baseCashCollected: 3524000,
+        stretchCashCollected: 5056000,
+        baseSignedCash: 4000000,
+        stretchSignedCash: 5470000,
+        baseDeals: 32,
+        stretchDeals: 40,
+        budgetCap: 150000
+      },
+      brandOwnership2025: {
+        'Kabir Shah': 126,
+        'Riya Kapoor': 20,
+        'Nisha Rao': 18,
+        'Meera Iyer': 16
+      },
+      activations: [
+        { brand: 'Beardo', oppId: 'O001', campaignLinked: 'Campus Ambassadors / Creator Reels', causalAttendeeUpliftProven: false, note: 'Dataset explicitly states activation links are associations, NOT proof of incremental visitor uplift.' },
+        { brand: 'Mosaic Mobility', oppId: 'O003', campaignLinked: 'EV Test-Ride Zone', causalAttendeeUpliftProven: false, note: 'Association only; no control group or causal attendance attribution.' },
+        { brand: 'Maple Devices', oppId: 'O004', campaignLinked: 'Tech Expo Booth', causalAttendeeUpliftProven: false, note: 'Association only; cannot claim incremental festival footfall.' }
+      ]
+    },
+    campaigns: [
+      { id: 'SC05', name: 'Creator Network Referrals', channel: 'introduction', type: 'warm', owner: 'Riya Kapoor', brandsTouched: 19, attempts: 21, qualified: 15, budget: 35000, spent: 32000, status: 'Scale', notes: '#1 cash channel (100% opp win rate); 6 qualified brands leaked without opp.' },
+      { id: 'SC02', name: 'Warm Partner Introductions', channel: 'introduction', type: 'warm', owner: 'Riya Kapoor', brandsTouched: 8, attempts: 9, qualified: 8, budget: 20000, spent: 18000, status: 'Scale', notes: '100% qualification rate; highest avg cash deal (₹1.07L).' },
+      { id: 'SC04', name: 'Partner Interest Form', channel: 'web_inbound', type: 'warm', owner: 'Kabir Shah', brandsTouched: 17, attempts: 18, qualified: 13, budget: 25000, spent: 21000, status: 'Scale', notes: '100% opp win rate; 6 qualified inbound brands never converted to opps.' },
+      { id: 'SC03', name: 'Brand Leader LinkedIn', channel: 'linkedin', type: 'cold', owner: 'Meera Iyer', brandsTouched: 37, attempts: 54, qualified: 10, budget: 25000, spent: 24000, status: 'Stop', notes: '0% close rate; ₹5.30L trapped in stalled open pipeline.' },
+      { id: 'SC06', name: 'Past Conversation Revival', channel: 'email', type: 'cold', owner: 'Kabir Shah', brandsTouched: 20, attempts: 44, qualified: 7, budget: 15000, spent: 14000, status: 'Change', notes: '0% close rate in 2025; restrict to 7-day surgical revival guardrail.' },
+      { id: 'SC01', name: 'Brand Discovery Email', channel: 'email', type: 'cold', owner: 'Kabir Shah', brandsTouched: 91, attempts: 224, qualified: 7, budget: 30000, spent: 29000, status: 'Stop', notes: '7.7% qual rate, 224 attempts, ₹0 closed. Candidate for immediate kill.' }
+    ],
+    // Exact 58 opportunities matching Sponsor Dataset.xlsx totals to the rupee
+    opportunities: [
+      // SC02 Confirmed Cash (6 deals = ₹6,40,000)
+      { id: 'O001', brand: 'Beardo', industry: 'Personal care', campaignId: 'SC02', owner: 'Riya Kapoor', stage: 'confirmed', supportType: 'cash', proposedValue: 200000, confirmedValue: 200000, collectedCash: 0, bankVerified: false, daysInStage: 14 },
+      { id: 'O003', brand: 'Mosaic Mobility', industry: 'Mobility', campaignId: 'SC02', owner: 'Riya Kapoor', stage: 'confirmed', supportType: 'cash', proposedValue: 120000, confirmedValue: 115000, collectedCash: 0, bankVerified: false, daysInStage: 15 },
+      { id: 'O004', brand: 'Maple Devices', industry: 'Consumer products', campaignId: 'SC02', owner: 'Riya Kapoor', stage: 'confirmed', supportType: 'cash', proposedValue: 100000, confirmedValue: 95000, collectedCash: 0, bankVerified: false, daysInStage: 16 },
+      { id: 'O005', brand: 'Velox EV', industry: 'Mobility', campaignId: 'SC02', owner: 'Nisha Rao', stage: 'confirmed', supportType: 'cash', proposedValue: 110000, confirmedValue: 105000, collectedCash: 0, bankVerified: false, daysInStage: 17 },
+      { id: 'O006', brand: 'BeanCraft Roasters', industry: 'Food & beverage', campaignId: 'SC02', owner: 'Meera Iyer', stage: 'confirmed', supportType: 'cash', proposedValue: 80000, confirmedValue: 75000, collectedCash: 0, bankVerified: false, daysInStage: 18 },
+      { id: 'O007', brand: 'Pulse Audio Labs', industry: 'Consumer products', campaignId: 'SC02', owner: 'Meera Iyer', stage: 'confirmed', supportType: 'cash', proposedValue: 55000, confirmedValue: 50000, collectedCash: 0, bankVerified: false, daysInStage: 13 },
+      // SC04 Confirmed Cash (6 deals = ₹6,35,000)
+      { id: 'O008', brand: 'Stride Scooters', industry: 'Mobility', campaignId: 'SC04', owner: 'Riya Kapoor', stage: 'confirmed', supportType: 'cash', proposedValue: 120000, confirmedValue: 115000, collectedCash: 0, bankVerified: false, daysInStage: 15 },
+      { id: 'O009', brand: 'BrewDrop Beverages', industry: 'Food & beverage', campaignId: 'SC04', owner: 'Riya Kapoor', stage: 'confirmed', supportType: 'cash', proposedValue: 110000, confirmedValue: 105000, collectedCash: 0, bankVerified: false, daysInStage: 16 },
+      { id: 'O010', brand: 'Crestline Goods', industry: 'Consumer products', campaignId: 'SC04', owner: 'Riya Kapoor', stage: 'confirmed', supportType: 'cash', proposedValue: 100000, confirmedValue: 95000, collectedCash: 0, bankVerified: false, daysInStage: 14 },
+      { id: 'O011', brand: 'PrepForge Academy', industry: 'Education', campaignId: 'SC04', owner: 'Nisha Rao', stage: 'confirmed', supportType: 'cash', proposedValue: 115000, confirmedValue: 110000, collectedCash: 0, bankVerified: false, daysInStage: 17 },
+      { id: 'O012', brand: 'CrispBite Snacks', industry: 'Food & beverage', campaignId: 'SC04', owner: 'Nisha Rao', stage: 'confirmed', supportType: 'cash', proposedValue: 115000, confirmedValue: 110000, collectedCash: 0, bankVerified: false, daysInStage: 16 },
+      { id: 'O013', brand: 'EchoStream Media', industry: 'Media', campaignId: 'SC04', owner: 'Meera Iyer', stage: 'confirmed', supportType: 'cash', proposedValue: 105000, confirmedValue: 100000, collectedCash: 0, bankVerified: false, daysInStage: 19 },
+      // SC05 Confirmed Cash (8 deals = ₹7,25,000)
+      { id: 'O014', brand: 'Kinetix Bikes', industry: 'Mobility', campaignId: 'SC05', owner: 'Meera Iyer', stage: 'confirmed', supportType: 'cash', proposedValue: 115000, confirmedValue: 110000, collectedCash: 0, bankVerified: false, daysInStage: 16 },
+      { id: 'O015', brand: 'Verve Lifestyle', industry: 'Consumer products', campaignId: 'SC05', owner: 'Meera Iyer', stage: 'confirmed', supportType: 'cash', proposedValue: 110000, confirmedValue: 105000, collectedCash: 0, bankVerified: false, daysInStage: 15 },
+      { id: 'O016', brand: 'NovaHome Goods', industry: 'Consumer products', campaignId: 'SC05', owner: 'Riya Kapoor', stage: 'confirmed', supportType: 'cash', proposedValue: 110000, confirmedValue: 105000, collectedCash: 0, bankVerified: false, daysInStage: 14 },
+      { id: 'O017', brand: 'UrbanSip Drinks', industry: 'Food & beverage', campaignId: 'SC05', owner: 'Riya Kapoor', stage: 'confirmed', supportType: 'cash', proposedValue: 105000, confirmedValue: 100000, collectedCash: 0, bankVerified: false, daysInStage: 15 },
+      { id: 'O018', brand: 'BrightReel Studios', industry: 'Media', campaignId: 'SC05', owner: 'Riya Kapoor', stage: 'confirmed', supportType: 'cash', proposedValue: 80000, confirmedValue: 75000, collectedCash: 0, bankVerified: false, daysInStage: 16 },
+      { id: 'O019', brand: 'LearnLoop Labs', industry: 'Education', campaignId: 'SC05', owner: 'Riya Kapoor', stage: 'confirmed', supportType: 'cash', proposedValue: 75000, confirmedValue: 70000, collectedCash: 0, bankVerified: false, daysInStage: 12 },
+      { id: 'O020', brand: 'CampusCast Media', industry: 'Media', campaignId: 'SC05', owner: 'Nisha Rao', stage: 'confirmed', supportType: 'cash', proposedValue: 80000, confirmedValue: 75000, collectedCash: 0, bankVerified: false, daysInStage: 17 },
+      { id: 'O021', brand: 'SkillSprint EdTech', industry: 'Education', campaignId: 'SC05', owner: 'Nisha Rao', stage: 'confirmed', supportType: 'cash', proposedValue: 90000, confirmedValue: 85000, collectedCash: 0, bankVerified: false, daysInStage: 18 },
+      // Confirmed In-Kind (4 deals = ₹2,40,000 — all Nisha Rao)
+      { id: 'O022', brand: 'QuickRide Rentals', industry: 'Mobility', campaignId: 'SC02', owner: 'Nisha Rao', stage: 'confirmed', supportType: 'in_kind', proposedValue: 100000, confirmedValue: 100000, collectedCash: 0, bankVerified: false, daysInStage: 16 },
+      { id: 'O023', brand: 'FreshFizz Co', industry: 'Food & beverage', campaignId: 'SC02', owner: 'Nisha Rao', stage: 'confirmed', supportType: 'in_kind', proposedValue: 40000, confirmedValue: 35000, collectedCash: 0, bankVerified: false, daysInStage: 15 },
+      { id: 'O024', brand: 'SpiceBox Kitchens', industry: 'Food & beverage', campaignId: 'SC04', owner: 'Nisha Rao', stage: 'confirmed', supportType: 'in_kind', proposedValue: 60000, confirmedValue: 55000, collectedCash: 0, bankVerified: false, daysInStage: 17 },
+      { id: 'O025', brand: 'MetroBeat Radio', industry: 'Media', campaignId: 'SC05', owner: 'Nisha Rao', stage: 'confirmed', supportType: 'in_kind', proposedValue: 55000, confirmedValue: 50000, collectedCash: 0, bankVerified: false, daysInStage: 16 },
+      // Stalled Negotiating (8 deals = ₹7,20,000)
+      { id: 'O026', brand: 'VoltGlide Motors', industry: 'Mobility', campaignId: 'SC03', owner: 'Meera Iyer', stage: 'negotiating', supportType: 'cash', proposedValue: 100000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 21 },
+      { id: 'O027', brand: 'ZenCraft Wear', industry: 'Consumer products', campaignId: 'SC03', owner: 'Meera Iyer', stage: 'negotiating', supportType: 'cash', proposedValue: 90000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 19 },
+      { id: 'O028', brand: 'ApexPrep India', industry: 'Education', campaignId: 'SC03', owner: 'Nisha Rao', stage: 'negotiating', supportType: 'cash', proposedValue: 90000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 23 },
+      { id: 'O029', brand: 'SunHarvest Foods', industry: 'Food & beverage', campaignId: 'SC01', owner: 'Meera Iyer', stage: 'negotiating', supportType: 'cash', proposedValue: 95000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 22 },
+      { id: 'O030', brand: 'LumaTech Gear', industry: 'Consumer products', campaignId: 'SC01', owner: 'Nisha Rao', stage: 'negotiating', supportType: 'cash', proposedValue: 85000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 18 },
+      { id: 'O031', brand: 'WaveFM Digital', industry: 'Media', campaignId: 'SC01', owner: 'Meera Iyer', stage: 'negotiating', supportType: 'cash', proposedValue: 80000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 20 },
+      { id: 'O032', brand: 'AeroCommute EV', industry: 'Mobility', campaignId: 'SC06', owner: 'Riya Kapoor', stage: 'negotiating', supportType: 'cash', proposedValue: 90000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 17 },
+      { id: 'O033', brand: 'NectarFuel Drinks', industry: 'Food & beverage', campaignId: 'SC06', owner: 'Nisha Rao', stage: 'negotiating', supportType: 'cash', proposedValue: 90000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 19 },
+      // Stalled Proposal Sent (6 deals = ₹3,30,000)
+      { id: 'O034', brand: 'StudyPulse App', industry: 'Education', campaignId: 'SC03', owner: 'Meera Iyer', stage: 'proposal_sent', supportType: 'cash', proposedValue: 60000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 18 },
+      { id: 'O035', brand: 'CraftCup Coffee', industry: 'Food & beverage', campaignId: 'SC03', owner: 'Nisha Rao', stage: 'proposal_sent', supportType: 'cash', proposedValue: 55000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 16 },
+      { id: 'O036', brand: 'PixelBuzz Media', industry: 'Media', campaignId: 'SC01', owner: 'Meera Iyer', stage: 'proposal_sent', supportType: 'cash', proposedValue: 55000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 20 },
+      { id: 'O037', brand: 'CoreFit Nutrition', industry: 'Consumer products', campaignId: 'SC01', owner: 'Nisha Rao', stage: 'proposal_sent', supportType: 'cash', proposedValue: 55000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 17 },
+      { id: 'O038', brand: 'CodeNest Learning', industry: 'Education', campaignId: 'SC06', owner: 'Meera Iyer', stage: 'proposal_sent', supportType: 'cash', proposedValue: 55000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 15 },
+      { id: 'O039', brand: 'SwiftScoot Mobility', industry: 'Mobility', campaignId: 'SC06', owner: 'Riya Kapoor', stage: 'proposal_sent', supportType: 'cash', proposedValue: 50000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 16 },
+      // Stalled Contacted (6 deals = ₹2,40,000)
+      { id: 'O040', brand: 'NordicPack Goods', industry: 'Consumer products', campaignId: 'SC03', owner: 'Meera Iyer', stage: 'contacted', supportType: 'cash', proposedValue: 45000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 22 },
+      { id: 'O041', brand: 'SnackVibe Foods', industry: 'Food & beverage', campaignId: 'SC03', owner: 'Nisha Rao', stage: 'contacted', supportType: 'cash', proposedValue: 40000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 19 },
+      { id: 'O042', brand: 'EduBridge Pro', industry: 'Education', campaignId: 'SC01', owner: 'Meera Iyer', stage: 'contacted', supportType: 'cash', proposedValue: 40000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 25 },
+      { id: 'O043', brand: 'SoundArc Media', industry: 'Media', campaignId: 'SC01', owner: 'Nisha Rao', stage: 'contacted', supportType: 'cash', proposedValue: 35000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 21 },
+      { id: 'O044', brand: 'TerraCycle EV', industry: 'Mobility', campaignId: 'SC06', owner: 'Meera Iyer', stage: 'contacted', supportType: 'cash', proposedValue: 40000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 18 },
+      { id: 'O045', brand: 'FizzPop Beverages', industry: 'Food & beverage', campaignId: 'SC06', owner: 'Nisha Rao', stage: 'contacted', supportType: 'cash', proposedValue: 40000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 17 },
+      // Stalled Prospecting (6 deals = ₹1,50,000)
+      { id: 'O046', brand: 'GlowCraft Goods', industry: 'Consumer products', campaignId: 'SC03', owner: 'Meera Iyer', stage: 'prospecting', supportType: 'cash', proposedValue: 25000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 26 },
+      { id: 'O047', brand: 'CampusDaily News', industry: 'Media', campaignId: 'SC03', owner: 'Nisha Rao', stage: 'prospecting', supportType: 'cash', proposedValue: 25000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 24 },
+      { id: 'O048', brand: 'OrbitRide Scooters', industry: 'Mobility', campaignId: 'SC01', owner: 'Meera Iyer', stage: 'prospecting', supportType: 'cash', proposedValue: 25000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 28 },
+      { id: 'O049', brand: 'SmartDesk EdTech', industry: 'Education', campaignId: 'SC01', owner: 'Nisha Rao', stage: 'prospecting', supportType: 'cash', proposedValue: 20000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 27 },
+      { id: 'O050', brand: 'PureBite Snacks', industry: 'Food & beverage', campaignId: 'SC06', owner: 'Meera Iyer', stage: 'prospecting', supportType: 'cash', proposedValue: 30000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 21 },
+      { id: 'O051', brand: 'DriftGear India', industry: 'Consumer products', campaignId: 'SC06', owner: 'Nisha Rao', stage: 'prospecting', supportType: 'cash', proposedValue: 25000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 20 },
+      // Lost (7 deals = ₹7,80,000) + Withdrawn (1 deal = ₹80,000)
+      { id: 'O002', brand: 'Beardo (Secondary Tier)', industry: 'Personal care', campaignId: 'SC02', owner: 'Meera Iyer', stage: 'lost', supportType: 'cash', proposedValue: 150000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 24 },
+      { id: 'O052', brand: 'Zenith Mobility', industry: 'Mobility', campaignId: 'SC03', owner: 'Meera Iyer', stage: 'lost', supportType: 'cash', proposedValue: 110000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 25 },
+      { id: 'O053', brand: 'Aura Beverages', industry: 'Food & beverage', campaignId: 'SC03', owner: 'Nisha Rao', stage: 'lost', supportType: 'cash', proposedValue: 100000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 23 },
+      { id: 'O054', brand: 'StreamLine Media', industry: 'Media', campaignId: 'SC03', owner: 'Meera Iyer', stage: 'withdrawn', supportType: 'cash', proposedValue: 80000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 22 },
+      { id: 'O055', brand: 'NextGen Prep', industry: 'Education', campaignId: 'SC01', owner: 'Meera Iyer', stage: 'lost', supportType: 'cash', proposedValue: 115000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 26 },
+      { id: 'O056', brand: 'VeloCity Bikes', industry: 'Mobility', campaignId: 'SC01', owner: 'Nisha Rao', stage: 'lost', supportType: 'cash', proposedValue: 105000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 24 },
+      { id: 'O057', brand: 'KrunchBox Foods', industry: 'Food & beverage', campaignId: 'SC06', owner: 'Meera Iyer', stage: 'lost', supportType: 'cash', proposedValue: 105000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 25 },
+      { id: 'O058', brand: 'SparkGear Goods', industry: 'Consumer products', campaignId: 'SC06', owner: 'Nisha Rao', stage: 'lost', supportType: 'cash', proposedValue: 95000, confirmedValue: 0, collectedCash: 0, bankVerified: false, daysInStage: 24 }
+    ],
+    // 18 Qualified Brands that leaked without an Opportunity (12 warm from SC04 & SC05 + 6 cold)
+    leakedBrands: [
+      { id: 'LB01', brand: 'Ather Urban Labs', industry: 'Mobility', campaignId: 'SC05', currentOwner: 'Kabir Shah', estValue: 120000, daysUnworked: 9, warm: true },
+      { id: 'LB02', brand: 'BlueTokai Campus', industry: 'Food & beverage', campaignId: 'SC05', currentOwner: 'Kabir Shah', estValue: 100000, daysUnworked: 8, warm: true },
+      { id: 'LB03', brand: 'boAt Audio Zone', industry: 'Consumer products', campaignId: 'SC05', currentOwner: 'Kabir Shah', estValue: 125000, daysUnworked: 11, warm: true },
+      { id: 'LB04', brand: 'Snitch Streetwear', industry: 'Consumer products', campaignId: 'SC05', currentOwner: 'Kabir Shah', estValue: 95000, daysUnworked: 7, warm: true },
+      { id: 'LB05', brand: 'SleepyOwl Brews', industry: 'Food & beverage', campaignId: 'SC05', currentOwner: 'Kabir Shah', estValue: 90000, daysUnworked: 10, warm: true },
+      { id: 'LB06', brand: 'Scaler Campus', industry: 'Education', campaignId: 'SC05', currentOwner: 'Kabir Shah', estValue: 110000, daysUnworked: 6, warm: true },
+      { id: 'LB07', brand: 'Yulu Micro-EV', industry: 'Mobility', campaignId: 'SC04', currentOwner: 'Kabir Shah', estValue: 115000, daysUnworked: 12, warm: true },
+      { id: 'LB08', brand: 'Whole Truth Foods', industry: 'Food & beverage', campaignId: 'SC04', currentOwner: 'Kabir Shah', estValue: 100000, daysUnworked: 8, warm: true },
+      { id: 'LB09', brand: 'Minimalist Skin', industry: 'Personal care', campaignId: 'SC04', currentOwner: 'Kabir Shah', estValue: 130000, daysUnworked: 9, warm: true },
+      { id: 'LB10', brand: 'Noise Wearables', industry: 'Consumer products', campaignId: 'SC04', currentOwner: 'Kabir Shah', estValue: 110000, daysUnworked: 14, warm: true },
+      { id: 'LB11', brand: 'PocketFM Campus', industry: 'Media', campaignId: 'SC04', currentOwner: 'Kabir Shah', estValue: 90000, daysUnworked: 7, warm: true },
+      { id: 'LB12', brand: 'PhysicsWallah Tech', industry: 'Education', campaignId: 'SC04', currentOwner: 'Kabir Shah', estValue: 105000, daysUnworked: 10, warm: true },
+      { id: 'LB13', brand: 'PulseDrink Co', industry: 'Food & beverage', campaignId: 'SC03', currentOwner: 'Kabir Shah', estValue: 80000, daysUnworked: 16, warm: false },
+      { id: 'LB14', brand: 'MetroWheels', industry: 'Mobility', campaignId: 'SC03', currentOwner: 'Kabir Shah', estValue: 85000, daysUnworked: 18, warm: false },
+      { id: 'LB15', brand: 'CraftLab Goods', industry: 'Consumer products', campaignId: 'SC06', currentOwner: 'Kabir Shah', estValue: 75000, daysUnworked: 15, warm: false },
+      { id: 'LB16', brand: 'EduSpark Hub', industry: 'Education', campaignId: 'SC06', currentOwner: 'Kabir Shah', estValue: 75000, daysUnworked: 19, warm: false },
+      { id: 'LB17', brand: 'SoundWave FM', industry: 'Media', campaignId: 'SC01', currentOwner: 'Kabir Shah', estValue: 70000, daysUnworked: 21, warm: false },
+      { id: 'LB18', brand: 'QuickByte Snacks', industry: 'Food & beverage', campaignId: 'SC01', currentOwner: 'Kabir Shah', estValue: 70000, daysUnworked: 22, warm: false }
+    ],
+    tasks: [
+      { id: 'T01', title: 'Lock college GST entity & Razorpay 60/40 milestone links', owner: 'Sathi Eswar', priority: 'high', campaignId: 'SC02', due: '2026-01-22', status: 'in_progress', cashImpact: 524000 },
+      { id: 'T02', title: 'Reassign 12 leaked SC04/SC05 qualified brands from Kabir to Riya/Nisha', owner: 'Riya Kapoor', priority: 'high', campaignId: 'SC04', due: '2026-01-25', status: 'todo', cashImpact: 950000 },
+      { id: 'T03', title: 'Pause SC01 cold email blast & reallocate ₹25k to VC Portfolio Desk', owner: 'Kabir Shah', priority: 'high', campaignId: 'SC01', due: '2026-01-24', status: 'todo', cashImpact: 300000 },
+      { id: 'T04', title: 'Send 7% early-bird upfront wire offer to 8 stalled negotiating deals', owner: 'Meera Iyer', priority: 'medium', campaignId: 'SC03', due: '2026-01-28', status: 'todo', cashImpact: 450000 },
+      { id: 'T05', title: 'Launch Creator-Bundled D2C package pricing test (₹95k vs ₹1.25L)', owner: 'Nisha Rao', priority: 'medium', campaignId: 'SC05', due: '2026-02-02', status: 'todo', cashImpact: 341000 }
+    ],
+    simulator: {
+      warmProspects: 92,
+      revivalProspects: 48,
+      meetingRate: 57.1,
+      proposalRate: 81.2,
+      winRate: 49.2,
+      avgCashDeal: 125000,
+      collectionRate: 88.1
+    }
+  };
+}
+
+let state = loadState();
+let activeTab = 'overview';
+let activeBenchmark = '2025';
+let chatHistory = [];
+let lastChatContext = { topic: null, entities: [] };
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return getInitialData();
+}
+function persistState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+// =========================================================================
+// 2. LIVE METRICS & DIAGNOSTICS ENGINE (Always computed from live state)
+// =========================================================================
+function computeAnalytics() {
+  const opps = state.opportunities;
+  const camps = state.campaigns;
+
+  const confirmedAll = opps.filter(o => o.stage === 'confirmed');
+  const confirmedCash = confirmedAll.filter(o => o.supportType === 'cash');
+  const confirmedInKind = confirmedAll.filter(o => o.supportType === 'in_kind');
+
+  const openStages = ['negotiating', 'proposal_sent', 'contacted', 'prospecting'];
+  const stalledOpen = opps.filter(o => openStages.includes(o.stage));
+  const lostOpps = opps.filter(o => o.stage === 'lost');
+  const withdrawnOpps = opps.filter(o => o.stage === 'withdrawn');
+
+  const sum = (arr, key) => arr.reduce((acc, x) => acc + (Number(x[key]) || 0), 0);
+
+  const confirmedCashVal = sum(confirmedCash, 'confirmedValue');
+  const confirmedInKindVal = sum(confirmedInKind, 'confirmedValue');
+  const totalConfirmedVal = confirmedCashVal + confirmedInKindVal;
+  const verifiedBankCash = sum(confirmedCash, 'collectedCash');
+  const hasAnyVerifiedBank = confirmedCash.some(o => o.collectedCash > 0);
+  const estPreFestCash = hasAnyVerifiedBank
+    ? verifiedBankCash
+    : Math.round(confirmedCashVal * state.meta.assumedHistoricalCollectionRate);
+
+  const stalledVal = sum(stalledOpen, 'proposedValue');
+  const lostVal = sum(lostOpps, 'proposedValue');
+  const withdrawnVal = sum(withdrawnOpps, 'proposedValue');
+
+  const avgCashDeal = confirmedCash.length ? Math.round(confirmedCashVal / confirmedCash.length) : 0;
+  const totalQualified = camps.reduce((a, c) => a + Number(c.qualified), 0);
+  const totalAttempts = camps.reduce((a, c) => a + Number(c.attempts), 0);
+  const totalBudget = camps.reduce((a, c) => a + Number(c.budget), 0);
+  const totalSpent = camps.reduce((a, c) => a + Number(c.spent), 0);
+
+  const reachedProposal = opps.filter(o => ['proposal_sent', 'negotiating', 'confirmed', 'lost', 'withdrawn'].includes(o.stage)).length;
+  const reachedNegotiating = opps.filter(o => ['negotiating', 'confirmed', 'lost', 'withdrawn'].includes(o.stage)).length;
+
+  // Campaign breakdown
+  const byCampaign = camps.map(c => {
+    const cOpps = opps.filter(o => o.campaignId === c.id);
+    const cConf = cOpps.filter(o => o.stage === 'confirmed');
+    const cConfCash = cConf.filter(o => o.supportType === 'cash');
+    const cConfInKind = cConf.filter(o => o.supportType === 'in_kind');
+    const cOpen = cOpps.filter(o => openStages.includes(o.stage));
+    const cCashVal = sum(cConfCash, 'confirmedValue');
+    const cInKindVal = sum(cConfInKind, 'confirmedValue');
+    const cStalledVal = sum(cOpen, 'proposedValue');
+    const cCollected = sum(cConfCash, 'collectedCash');
+    const winRate = cOpps.length ? (cConf.length / cOpps.length) * 100 : 0;
+    const qualRate = c.brandsTouched ? (c.qualified / c.brandsTouched) * 100 : 0;
+    const avgCycle = cOpps.length ? cOpps.reduce((a, o) => a + o.daysInStage, 0) / cOpps.length : 0;
+    const leakedCount = state.leakedBrands.filter(b => b.campaignId === c.id).length;
+
+    // Live Guardrail Recommendation (Slide 3 logic)
+    let autoRec = 'Change';
+    let recReason = 'Monitor conversion velocity & SLA';
+    if (winRate >= 65 && cCashVal > 0) {
+      autoRec = 'Scale';
+      recReason = `${winRate.toFixed(0)}% opp win rate; ${leakedCount > 0 ? leakedCount + ' warm leads awaiting opp creation' : 'top cash ROI'}`;
+    } else if (cOpps.length >= 5 && cCashVal === 0 && avgCycle >= 18) {
+      autoRec = 'Stop';
+      recReason = `0% cash close across ${cOpps.length} opps; ${formatINR(cStalledVal)} stalled (avg ${avgCycle.toFixed(1)}d)`;
+    }
+    return {
+      ...c,
+      oppsCount: cOpps.length,
+      confirmedCount: cConf.length,
+      confirmedCashCount: cConfCash.length,
+      confirmedInKindCount: cConfInKind.length,
+      cashVal: cCashVal,
+      inKindVal: cInKindVal,
+      collectedCash: cCollected,
+      stalledCount: cOpen.length,
+      stalledVal: cStalledVal,
+      winRate,
+      qualRate,
+      avgCycle,
+      leakedCount,
+      autoRec,
+      recReason
+    };
+  });
+
+  // Rep breakdown
+  const repNames = Array.from(new Set([...opps.map(o => o.owner), 'Kabir Shah']));
+  const byRep = repNames.map(rep => {
+    const rOpps = opps.filter(o => o.owner === rep);
+    const rConf = rOpps.filter(o => o.stage === 'confirmed');
+    const rCash = rConf.filter(o => o.supportType === 'cash');
+    const rInKind = rConf.filter(o => o.supportType === 'in_kind');
+    const rOpen = rOpps.filter(o => openStages.includes(o.stage));
+    const rLeaked = state.leakedBrands.filter(b => b.currentOwner === rep).length;
+    return {
+      owner: rep,
+      brandsAssigned: state.meta.brandOwnership2025[rep] || 0,
+      opps: rOpps.length,
+      confirmedCashCount: rCash.length,
+      confirmedInKindCount: rInKind.length,
+      cashVal: sum(rCash, 'confirmedValue'),
+      inKindVal: sum(rInKind, 'confirmedValue'),
+      collectedCash: sum(rCash, 'collectedCash'),
+      stalledCount: rOpen.length,
+      stalledVal: sum(rOpen, 'proposedValue'),
+      winRate: rOpps.length ? (rConf.length / rOpps.length) * 100 : 0,
+      leakedCount: rLeaked
+    };
+  }).sort((a, b) => b.cashVal - a.cashVal);
+
+  // Industry breakdown
+  const indNames = Array.from(new Set(opps.map(o => o.industry)));
+  const byIndustry = indNames.map(ind => {
+    const iOpps = opps.filter(o => o.industry === ind);
+    const iConf = iOpps.filter(o => o.stage === 'confirmed');
+    const iCash = iConf.filter(o => o.supportType === 'cash');
+    const iOpen = iOpps.filter(o => openStages.includes(o.stage));
+    return {
+      industry: ind,
+      opps: iOpps.length,
+      confirmed: iConf.length,
+      cashCount: iCash.length,
+      cashVal: sum(iCash, 'confirmedValue'),
+      stalledVal: sum(iOpen, 'proposedValue'),
+      avgCash: iCash.length ? Math.round(sum(iCash, 'confirmedValue') / iCash.length) : 0
+    };
+  }).sort((a, b) => b.cashVal - a.cashVal);
+
+  const stageCounts = {
+    confirmed: { count: confirmedAll.length, val: totalConfirmedVal },
+    negotiating: { count: opps.filter(o => o.stage === 'negotiating').length, val: sum(opps.filter(o => o.stage === 'negotiating'), 'proposedValue') },
+    proposal_sent: { count: opps.filter(o => o.stage === 'proposal_sent').length, val: sum(opps.filter(o => o.stage === 'proposal_sent'), 'proposedValue') },
+    contacted: { count: opps.filter(o => o.stage === 'contacted').length, val: sum(opps.filter(o => o.stage === 'contacted'), 'proposedValue') },
+    prospecting: { count: opps.filter(o => o.stage === 'prospecting').length, val: sum(opps.filter(o => o.stage === 'prospecting'), 'proposedValue') },
+    lost: { count: lostOpps.length, val: lostVal },
+    withdrawn: { count: withdrawnOpps.length, val: withdrawnVal }
+  };
+
+  const agingAlerts = stalledOpen.filter(o => o.daysInStage >= 14).sort((a, b) => b.proposedValue - a.proposedValue);
+  const warmLeaks = state.leakedBrands.filter(b => b.warm);
+
+  return {
+    totalOpps: opps.length,
+    confirmedAllCount: confirmedAll.length,
+    confirmedCashCount: confirmedCash.length,
+    confirmedInKindCount: confirmedInKind.length,
+    confirmedCashVal,
+    confirmedInKindVal,
+    totalConfirmedVal,
+    verifiedBankCash,
+    hasAnyVerifiedBank,
+    estPreFestCash,
+    stalledCount: stalledOpen.length,
+    stalledVal,
+    lostCount: lostOpps.length,
+    lostVal,
+    withdrawnCount: withdrawnOpps.length,
+    withdrawnVal,
+    avgCashDeal,
+    totalQualified,
+    totalAttempts,
+    totalBudget,
+    totalSpent,
+    reachedProposal,
+    reachedNegotiating,
+    byCampaign,
+    byRep,
+    byIndustry,
+    stageCounts,
+    agingAlerts,
+    warmLeaks
+  };
+}
+
+function formatINR(num) {
+  const n = Number(num) || 0;
+  if (Math.abs(n) >= 100000) return '₹' + (n / 100000).toFixed(2) + 'L';
+  return '₹' + n.toLocaleString('en-IN');
+}
+function formatFullINR(num) {
+  return '₹' + Math.round(Number(num) || 0).toLocaleString('en-IN');
+}
+
+// =========================================================================
+// 3. RENDERING VIEWS
+// =========================================================================
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.nav-btn').forEach((btn, i) => {
+    const tabs = ['overview', 'diagnostics', 'pipeline', 'tasks', 'simulator'];
+    btn.classList.toggle('active', tabs[i] === tab);
+  });
+  renderAll();
+}
+
+function setBenchmark(mode) {
+  activeBenchmark = mode;
+  document.getElementById('bench-2025').classList.toggle('active', mode === '2025');
+  document.getElementById('bench-2026').classList.toggle('active', mode === '2026');
+  renderAll();
+}
+
+function renderAll() {
+  const a = computeAnalytics();
+  document.getElementById('nav-leak-badge').textContent = state.leakedBrands.length;
+  document.getElementById('nav-opp-badge').textContent = a.totalOpps;
+  document.getElementById('nav-task-badge').textContent = state.tasks.filter(t => t.status !== 'done').length;
+
+  const titles = {
+    overview: ['Overview & Sponsorship Funnel', 'Real-time funnel tracking, cash vs. in-kind separation, and campaign ROI'],
+    diagnostics: ['Diagnostics, Leakage & Scale/Stop Guardrails', '14-day stage decay detector, qualified brand handoff leaks, and live campaign decisions'],
+    pipeline: ['Pipeline & Campaign Manager', 'Edit deals, update pre-fest cash collected, or adjust campaign budgets — all analytics recalculate live'],
+    tasks: ['Execution & Action Items', 'Track owners, deadlines, and AI-recommended interventions'],
+    simulator: ['2026 Bengaluru Strategy & Cash Simulator', 'Interactive Slide 1 funnel model & Slide 2 Cash-Adjusted RICE prioritization']
+  };
+  document.getElementById('view-title').textContent = titles[activeTab][0];
+  document.getElementById('view-subtitle').textContent = titles[activeTab][1];
+
+  const container = document.getElementById('main-view');
+  if (activeTab === 'overview') container.innerHTML = renderOverview(a);
+  if (activeTab === 'diagnostics') container.innerHTML = renderDiagnostics(a);
+  if (activeTab === 'pipeline') container.innerHTML = renderPipeline(a);
+  if (activeTab === 'tasks') container.innerHTML = renderTasks(a);
+  if (activeTab === 'simulator') container.innerHTML = renderSimulator(a);
+}
+
+function renderOverview(a) {
+  const targetCash = activeBenchmark === '2025' ? state.meta.targets2025.cashTargetInr : state.meta.targets2026.baseCashCollected;
+  const targetDeals = activeBenchmark === '2025' ? state.meta.targets2025.revisedConfirmed : state.meta.targets2026.baseDeals;
+  const cashGap = targetCash - a.estPreFestCash;
+  const dealGap = targetDeals - a.confirmedAllCount;
+  const maxCampVal = Math.max(...a.byCampaign.map(c => Math.max(c.cashVal + c.inKindVal, c.stalledVal)), 1);
+
+  const funnelSteps = [
+    { label: '1. Brands Identified', val: state.meta.totalBrands, pct: 100, sub: `${state.meta.totalContacts} contacts` },
+    { label: '2. Replied (Positive)', val: state.meta.positiveReplies, pct: (state.meta.positiveReplies / state.meta.totalBrands) * 100, sub: `${state.meta.repliedBrands} any reply` },
+    { label: '3. Qualified Brands', val: a.totalQualified, pct: (a.totalQualified / state.meta.totalBrands) * 100, sub: `Goal: 55 (${a.totalQualified >= 55 ? 'Beat' : 'Behind'})` },
+    { label: '4. Opportunities Created', val: a.totalOpps, pct: (a.totalOpps / state.meta.totalBrands) * 100, sub: `${state.leakedBrands.length} qual leaked` },
+    { label: '5. Reached Proposal', val: a.reachedProposal, pct: (a.reachedProposal / state.meta.totalBrands) * 100, sub: `${((a.reachedProposal / Math.max(a.totalOpps,1))*100).toFixed(1)}% of opps` },
+    { label: '6. Confirmed (All)', val: a.confirmedAllCount, pct: (a.confirmedAllCount / state.meta.totalBrands) * 100, sub: `${a.confirmedCashCount} cash + ${a.confirmedInKindCount} in-kind` },
+    { label: '7. Confirmed Cash Deals', val: a.confirmedCashCount, pct: (a.confirmedCashCount / state.meta.totalBrands) * 100, sub: `${formatINR(a.confirmedCashVal)} face value` }
+  ];
+
+  return `
+    <div class="callout-info">
+      <strong>Data Integrity Guardrail:</strong> ${a.hasAnyVerifiedBank
+        ? `Showing <strong>${formatINR(a.verifiedBankCash)}</strong> in recorded bank receipts across confirmed deals.`
+        : `Historical 2025 records track <strong>reported face value (${formatINR(a.confirmedCashVal)} cash + ${formatINR(a.confirmedInKindVal)} in-kind)</strong>, not bank receipts. Estimated pre-fest cash (${formatINR(a.estPreFestCash)}) applies an explicit 75% historical collection assumption. Record bank payments in <em>Pipeline &amp; Campaigns</em> to switch to verified cash.`}
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card highlight">
+        <div class="kpi-title">${a.hasAnyVerifiedBank ? 'Verified Bank Cash' : 'Est. Pre-Fest Cash (75%)'}</div>
+        <div class="kpi-value">${formatINR(a.estPreFestCash)}</div>
+        <div class="kpi-sub">${activeBenchmark === '2025' ? 'vs ₹25.00L goal' : 'vs ₹35.24L 2026 Base'} (${cashGap > 0 ? '-' + formatINR(cashGap) : '+' + formatINR(Math.abs(cashGap))})</div>
+      </div>
+      <div class="kpi-card highlight">
+        <div class="kpi-title">Confirmed Cash Value</div>
+        <div class="kpi-value">${formatINR(a.confirmedCashVal)}</div>
+        <div class="kpi-sub">${a.confirmedCashCount} cash deals · Avg ${formatINR(a.avgCashDeal)} (+${formatINR(a.confirmedInKindVal)} in-kind)</div>
+      </div>
+      <div class="kpi-card ${dealGap > 0 ? 'warn' : 'highlight'}">
+        <div class="kpi-title">Confirmed Deals vs Goal</div>
+        <div class="kpi-value">${a.confirmedAllCount} / ${targetDeals}</div>
+        <div class="kpi-sub">${dealGap > 0 ? `Missed by ${dealGap} deals` : `Exceeded by ${Math.abs(dealGap)}`} · ${(a.confirmedAllCount / Math.max(a.totalOpps,1) * 100).toFixed(1)}% opp win</div>
+      </div>
+      <div class="kpi-card warn">
+        <div class="kpi-title">Stalled Open Pipeline</div>
+        <div class="kpi-value">${formatINR(a.stalledVal)}</div>
+        <div class="kpi-sub">${a.stalledCount} open deals (${a.agingAlerts.length} aged ≥14d risk)</div>
+      </div>
+      <div class="kpi-card danger">
+        <div class="kpi-title">Qualified Brand Leakage</div>
+        <div class="kpi-value">${state.leakedBrands.length} Brands</div>
+        <div class="kpi-sub">${a.warmLeaks.length} from 100%-win warm channels (SC04/SC05)</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">End-to-End Sponsorship Growth Funnel</div>
+            <div class="panel-sub">Dynamic conversion from 180 target brands to confirmed cash deals</div>
+          </div>
+          <span class="badge b-info">${activeBenchmark === '2025' ? '2025 Baseline' : '2026 Plan Overlay'}</span>
+        </div>
+        ${funnelSteps.map(s => `
+          <div class="funnel-row">
+            <div class="funnel-label">${s.label}</div>
+            <div class="funnel-track">
+              <div class="funnel-fill" style="width:${Math.max(s.pct, 8)}%;">${s.val}</div>
+            </div>
+            <div class="funnel-meta">${s.sub}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Campaign Cash vs. Stalled Pipeline (Warm vs. Cold Cliff)</div>
+            <div class="panel-sub"><span style="color:var(--primary);font-weight:700;">■ Confirmed Cash</span> &nbsp; <span style="color:#0284c7;font-weight:700;">■ In-Kind</span> &nbsp; <span style="color:#d97706;font-weight:700;">■ Stalled Open</span></div>
+          </div>
+        </div>
+        ${a.byCampaign.map(c => {
+          const wCash = (c.cashVal / maxCampVal) * 100;
+          const wInKind = (c.inKindVal / maxCampVal) * 100;
+          const wStalled = (c.stalledVal / maxCampVal) * 100;
+          return `
+            <div class="bar-group">
+              <div class="bar-group-top">
+                <span><strong>${c.id} · ${c.name}</strong> <span style="color:var(--text-subtle);">(${c.brandsTouched} brands, ${c.oppsCount} opps)</span></span>
+                <span style="font-variant-numeric:tabular-nums;"><strong>${formatINR(c.cashVal)}</strong> cash ${c.stalledVal > 0 ? '· <span style="color:var(--warn);">' + formatINR(c.stalledVal) + ' stalled</span>' : ''}</span>
+              </div>
+              <div class="bar-dual">
+                ${wCash > 0 ? `<div class="bar-seg-cash" style="width:${wCash}%"></div>` : ''}
+                ${wInKind > 0 ? `<div class="bar-seg-inkind" style="width:${wInKind}%"></div>` : ''}
+                ${wStalled > 0 ? `<div class="bar-seg-stalled" style="width:${wStalled}%"></div>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Industry Revenue Breakdown</div>
+          <span class="panel-sub">Top 4 verticals = 74.3% of cash (Bengaluru ICP fit)</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Industry</th><th class="num">Opps</th><th class="num">Cash Deals</th><th class="num">Confirmed Cash</th><th class="num">Avg Cash Deal</th><th class="num">Stalled</th></tr></thead>
+            <tbody>
+              ${a.byIndustry.map(i => `
+                <tr>
+                  <td><strong>${i.industry}</strong></td>
+                  <td class="num">${i.opps}</td>
+                  <td class="num">${i.cashCount}</td>
+                  <td class="num"><strong>${formatINR(i.cashVal)}</strong></td>
+                  <td class="num">${i.avgCash ? formatINR(i.avgCash) : '—'}</td>
+                  <td class="num" style="color:var(--warn);">${formatINR(i.stalledVal)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Team Performance &amp; Ownership Bottlenecks</div>
+          <span class="panel-sub">Riya drove 53.8% of cash; Kabir held 126 brands / 0 opps</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Owner</th><th class="num">Brands</th><th class="num">Opps</th><th class="num">Cash (In-Kind)</th><th class="num">Win %</th><th class="num">Stalled</th></tr></thead>
+            <tbody>
+              ${a.byRep.map(r => `
+                <tr>
+                  <td><strong>${r.owner}</strong>${r.leakedCount > 0 ? ` <span class="badge b-stop">${r.leakedCount} leaked</span>` : ''}</td>
+                  <td class="num">${r.brandsAssigned}</td>
+                  <td class="num">${r.opps}</td>
+                  <td class="num"><strong>${formatINR(r.cashVal)}</strong> ${r.inKindVal > 0 ? `(${formatINR(r.inKindVal)})` : ''}</td>
+                  <td class="num">${r.winRate.toFixed(1)}%</td>
+                  <td class="num" style="color:var(--warn);">${formatINR(r.stalledVal)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderDiagnostics(a) {
+  return `
+    <div class="callout-warn">
+      <strong>Leading Failure Signal Active:</strong> Historical won deals closed in a median <strong>16.1 days</strong> vs. <strong>24.1 days</strong> for lost deals. Currently <strong>${a.agingAlerts.length} open opportunities worth ${formatINR(a.agingAlerts.reduce((s,o)=>s+o.proposedValue,0))}</strong> have crossed the 14-day decay threshold.
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Live Campaign Scale / Change / Stop Guardrail Engine</div>
+          <div class="panel-sub">Automatically computed from live win rate, cash closed, stage aging, and leakage thresholds</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Campaign</th>
+              <th>Type</th>
+              <th class="num">Qual %</th>
+              <th class="num">Opp Win %</th>
+              <th class="num">Confirmed Cash</th>
+              <th class="num">Stalled</th>
+              <th>Auto-Signal</th>
+              <th>Diagnostic Reasoning</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${a.byCampaign.map(c => `
+              <tr>
+                <td><strong>${c.id} · ${c.name}</strong></td>
+                <td><span class="badge ${c.type==='warm'?'b-info':'b-neutral'}">${c.type}</span></td>
+                <td class="num">${c.qualRate.toFixed(1)}%</td>
+                <td class="num"><strong>${c.winRate.toFixed(1)}%</strong></td>
+                <td class="num"><strong>${formatINR(c.cashVal)}</strong></td>
+                <td class="num" style="color:var(--warn);">${formatINR(c.stalledVal)}</td>
+                <td><span class="badge b-${c.autoRec.toLowerCase()}">${c.autoRec}</span></td>
+                <td style="font-size:11.5px;color:var(--text-muted);">${c.recReason}</td>
+                <td>
+                  <select onchange="updateCampaignStatus('${c.id}', this.value)" style="padding:3px 6px;font-size:11px;">
+                    <option ${c.status==='Scale'?'selected':''}>Scale</option>
+                    <option ${c.status==='Change'?'selected':''}>Change</option>
+                    <option ${c.status==='Stop'?'selected':''}>Stop</option>
+                  </select>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Qualified-Without-Opportunity Leakage Queue (${state.leakedBrands.length})</div>
+            <div class="panel-sub">Convert warm SC04/SC05 qualified brands into live opportunities with 1 click</div>
+          </div>
+          ${a.warmLeaks.length > 0 ? `<button class="btn btn-primary btn-sm" onclick="convertAllWarmLeaks()">Convert All ${a.warmLeaks.length} Warm Leads</button>` : ''}
+        </div>
+        <div class="table-wrap" style="max-height:330px;overflow-y:auto;">
+          <table>
+            <thead><tr><th>Brand</th><th>Channel</th><th class="num">Est. Cash</th><th class="num">Idle Days</th><th>Action</th></tr></thead>
+            <tbody>
+              ${state.leakedBrands.length === 0
+                ? '<tr><td colspan="5" style="text-align:center;color:var(--success);font-weight:600;padding:18px;">Zero leakage! All qualified brands converted to opportunities.</td></tr>'
+                : state.leakedBrands.map(b => `
+                <tr>
+                  <td><strong>${b.brand}</strong><br><span style="font-size:10.5px;color:var(--text-subtle);">${b.industry}</span></td>
+                  <td><span class="badge ${b.warm?'b-scale':'b-neutral'}">${b.campaignId}</span></td>
+                  <td class="num">${formatINR(b.estValue)}</td>
+                  <td class="num" style="color:var(--danger);font-weight:700;">${b.daysUnworked}d</td>
+                  <td><button class="btn btn-primary btn-sm" onclick="convertLeakedBrand('${b.id}')">Create Opp</button></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">14-Day Stage-Aging Watchlist (${a.agingAlerts.length} Deals)</div>
+            <div class="panel-sub">Prioritized by value — negotiating deals ready for 7% early-bird offer</div>
+          </div>
+        </div>
+        <div class="table-wrap" style="max-height:330px;overflow-y:auto;">
+          <table>
+            <thead><tr><th>Deal / Brand</th><th>Stage</th><th>Owner</th><th class="num">Value</th><th class="num">Age</th><th>Quick Action</th></tr></thead>
+            <tbody>
+              ${a.agingAlerts.slice(0, 14).map(o => `
+                <tr>
+                  <td><strong>${o.id} · ${o.brand}</strong><br><span style="font-size:10.5px;color:var(--text-subtle);">${o.campaignId}</span></td>
+                  <td><span class="badge b-${o.stage}">${o.stage}</span></td>
+                  <td>${o.owner.split(' ')[0]}</td>
+                  <td class="num"><strong>${formatINR(o.proposedValue)}</strong></td>
+                  <td class="num" style="color:var(--danger);font-weight:700;">${o.daysInStage}d</td>
+                  <td><button class="btn btn-sm" onclick="openOppModal('${o.id}')">Update</button></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+let pipeFilterStage = 'all';
+let pipeFilterCamp = 'all';
+let pipeSearch = '';
+
+function renderPipeline(a) {
+  const filtered = state.opportunities.filter(o => {
+    if (pipeFilterStage !== 'all' && o.stage !== pipeFilterStage) return false;
+    if (pipeFilterCamp !== 'all' && o.campaignId !== pipeFilterCamp) return false;
+    if (pipeSearch && !(o.brand.toLowerCase().includes(pipeSearch) || o.id.toLowerCase().includes(pipeSearch) || o.owner.toLowerCase().includes(pipeSearch))) return false;
+    return true;
+  });
+
+  return `
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Campaign Budgets &amp; Status Controls</div>
+          <div class="panel-sub">Edit budgets or qualified counts directly — updates dashboard &amp; AI Copilot immediately</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Campaign</th><th>Owner</th><th class="num">Budget (₹)</th><th class="num">Spent (₹)</th><th class="num">Qualified</th><th class="num">Cash Closed</th><th>Status</th></tr></thead>
+          <tbody>
+            ${a.byCampaign.map(c => `
+              <tr>
+                <td><strong>${c.id}</strong></td>
+                <td>${c.name}</td>
+                <td>${c.owner}</td>
+                <td class="num"><input type="number" value="${c.budget}" step="5000" style="width:90px;text-align:right;" onchange="updateCampaignField('${c.id}','budget',this.value)"></td>
+                <td class="num"><input type="number" value="${c.spent}" step="5000" style="width:90px;text-align:right;" onchange="updateCampaignField('${c.id}','spent',this.value)"></td>
+                <td class="num"><input type="number" value="${c.qualified}" style="width:60px;text-align:right;" onchange="updateCampaignField('${c.id}','qualified',this.value)"></td>
+                <td class="num"><strong>${formatINR(c.cashVal)}</strong></td>
+                <td>
+                  <select onchange="updateCampaignStatus('${c.id}', this.value)">
+                    <option ${c.status==='Scale'?'selected':''}>Scale</option>
+                    <option ${c.status==='Change'?'selected':''}>Change</option>
+                    <option ${c.status==='Stop'?'selected':''}>Stop</option>
+                  </select>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Sponsorship Opportunity Pipeline (${filtered.length} of ${state.opportunities.length} deals)</div>
+          <div class="panel-sub">Change stages or record Pre-Fest Bank Cash Collected inline to see real-time impact</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openOppModal()">+ Add Opportunity</button>
+      </div>
+      <div class="filter-bar">
+        <input type="text" placeholder="Search brand, ID, owner..." value="${pipeSearch}" oninput="pipeSearch=this.value.toLowerCase();renderAll();" style="width:200px;">
+        <select onchange="pipeFilterStage=this.value;renderAll();">
+          <option value="all" ${pipeFilterStage==='all'?'selected':''}>All Stages</option>
+          <option value="confirmed" ${pipeFilterStage==='confirmed'?'selected':''}>Confirmed</option>
+          <option value="negotiating" ${pipeFilterStage==='negotiating'?'selected':''}>Negotiating</option>
+          <option value="proposal_sent" ${pipeFilterStage==='proposal_sent'?'selected':''}>Proposal Sent</option>
+          <option value="contacted" ${pipeFilterStage==='contacted'?'selected':''}>Contacted</option>
+          <option value="prospecting" ${pipeFilterStage==='prospecting'?'selected':''}>Prospecting</option>
+          <option value="lost" ${pipeFilterStage==='lost'?'selected':''}>Lost</option>
+          <option value="withdrawn" ${pipeFilterStage==='withdrawn'?'selected':''}>Withdrawn</option>
+        </select>
+        <select onchange="pipeFilterCamp=this.value;renderAll();">
+          <option value="all" ${pipeFilterCamp==='all'?'selected':''}>All Campaigns</option>
+          ${state.campaigns.map(c => `<option value="${c.id}" ${pipeFilterCamp===c.id?'selected':''}>${c.id} · ${c.name}</option>`).join('')}
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Brand</th><th>Campaign</th><th>Owner</th><th>Stage</th><th>Type</th>
+              <th class="num">Proposed</th><th class="num">Confirmed</th><th class="num">Bank Collected</th><th class="num">Days</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.map(o => `
+              <tr>
+                <td><strong>${o.id}</strong></td>
+                <td><strong>${o.brand}</strong><br><span style="font-size:10.5px;color:var(--text-subtle);">${o.industry}</span></td>
+                <td>${o.campaignId}</td>
+                <td>${o.owner.split(' ')[0]}</td>
+                <td>
+                  <select onchange="quickStageChange('${o.id}', this.value)" style="padding:3px 5px;font-size:11px;">
+                    ${['prospecting','contacted','proposal_sent','negotiating','confirmed','lost','withdrawn'].map(st => `<option value="${st}" ${o.stage===st?'selected':''}>${st}</option>`).join('')}
+                  </select>
+                </td>
+                <td><span class="badge ${o.supportType==='cash'?'b-scale':'b-info'}">${o.supportType}</span></td>
+                <td class="num">${formatINR(o.proposedValue)}</td>
+                <td class="num"><strong>${o.confirmedValue ? formatINR(o.confirmedValue) : '—'}</strong></td>
+                <td class="num">
+                  <input type="number" value="${o.collectedCash}" step="10000" style="width:82px;text-align:right;padding:3px 5px;font-size:11px;" onchange="quickCollectedChange('${o.id}', this.value)" title="Enter verified pre-fest bank receipt">
+                </td>
+                <td class="num" style="${o.daysInStage>=14 && !['confirmed','lost','withdrawn'].includes(o.stage) ? 'color:var(--danger);font-weight:700;' : ''}">${o.daysInStage}d</td>
+                <td style="white-space:nowrap;">
+                  <button class="btn btn-sm" onclick="openOppModal('${o.id}')">Edit</button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteOpp('${o.id}')">×</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderTasks(a) {
+  const openTasks = state.tasks.filter(t => t.status !== 'done');
+  const totalImpact = openTasks.reduce((s, t) => s + (Number(t.cashImpact) || 0), 0);
+  return `
+    <div class="kpi-grid">
+      <div class="kpi-card highlight">
+        <div class="kpi-title">Open Action Items</div>
+        <div class="kpi-value">${openTasks.length}</div>
+        <div class="kpi-sub">${state.tasks.filter(t=>t.status==='done').length} completed</div>
+      </div>
+      <div class="kpi-card highlight">
+        <div class="kpi-title">Active Tasks Est. Cash Impact</div>
+        <div class="kpi-value">${formatINR(totalImpact)}</div>
+        <div class="kpi-sub">Linked to campaign bottlenecks &amp; AI proposals</div>
+      </div>
+      <div class="kpi-card warn">
+        <div class="kpi-title">High-Priority Items</div>
+        <div class="kpi-value">${openTasks.filter(t=>t.priority==='high').length}</div>
+        <div class="kpi-sub">Immediate Week 1–2 execution focus</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Campaign Execution &amp; Action Board</div>
+          <div class="panel-sub">Tasks created manually or approved from AI Copilot recommendations persist automatically</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openTaskModal()">+ New Task</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Action Item</th><th>Owner</th><th>Campaign</th><th>Priority</th><th>Deadline</th><th class="num">Est. Impact</th><th>Status</th><th></th></tr></thead>
+          <tbody>
+            ${state.tasks.map(t => `
+              <tr>
+                <td><strong>${t.id}</strong></td>
+                <td style="${t.status==='done'?'text-decoration:line-through;color:var(--text-subtle);':''}"><strong>${t.title}</strong></td>
+                <td>${t.owner}</td>
+                <td><span class="badge b-neutral">${t.campaignId}</span></td>
+                <td><span class="badge ${t.priority==='high'?'b-high':t.priority==='medium'?'b-change':'b-neutral'}">${t.priority}</span></td>
+                <td>${t.due}</td>
+                <td class="num"><strong>${formatINR(t.cashImpact)}</strong></td>
+                <td>
+                  <select onchange="updateTaskStatus('${t.id}', this.value)" style="padding:3px 6px;font-size:11px;">
+                    <option value="todo" ${t.status==='todo'?'selected':''}>To Do</option>
+                    <option value="in_progress" ${t.status==='in_progress'?'selected':''}>In Progress</option>
+                    <option value="done" ${t.status==='done'?'selected':''}>Done</option>
+                  </select>
+                </td>
+                <td><button class="btn btn-sm btn-danger" onclick="deleteTask('${t.id}')">×</button></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderSimulator(a) {
+  const s = state.simulator;
+  const totalProspects = s.warmProspects + s.revivalProspects;
+  const meetings = Math.round(totalProspects * (s.meetingRate / 100));
+  const proposals = Math.round(meetings * (s.proposalRate / 100));
+  const signedDeals = Math.round(proposals * (s.winRate / 100));
+  const signedCash = signedDeals * s.avgCashDeal;
+  const collectedCash = Math.round(signedCash * (s.collectionRate / 100));
+
+  const riceBets = [
+    { rank: 1, name: 'Milestone Cash-Fast-Track & Escrow Lock', r: 40, i: 2.5, c: 0.85, e: 6, score: 14.17, budget: '₹15k', base: '+₹5.24L', stretch: '+₹9.54L', dec: 'DOUBLE DOWN' },
+    { rank: 2, name: 'Alumni & Bengaluru VC Portfolio Desk + 24h SLA', r: 42, i: 3.0, c: 0.90, e: 14, score: 8.10, budget: '₹30k', base: '+₹9.82L', stretch: '+₹16.24L', dec: 'DOUBLE DOWN' },
+    { rank: 3, name: 'Creator-Bundled D2C Micro-Packages', r: 40, i: 2.0, c: 0.80, e: 10, score: 6.40, budget: '₹60k', base: '+₹3.41L', stretch: '+₹5.81L', dec: 'DOUBLE DOWN' },
+    { rank: 4, name: 'Self-Serve Sponsor ROI & Slot Portal', r: 36, i: 1.25, c: 0.70, e: 7, score: 4.50, budget: '₹30k', base: '+₹0.49L', stretch: '+₹2.66L', dec: 'TEST / STAGE' },
+    { rank: 5, name: 'High-Volume Cold Email & LinkedIn Blast', r: 120, i: 0.25, c: 0.30, e: 18, score: 0.50, budget: '₹45k (Cut)', base: '₹0.00L', stretch: '₹0.00L', dec: 'REJECT / KILL' }
+  ];
+
+  return `
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Interactive 2026 Bengaluru Funnel Simulator (Slide 1 Model)</div>
+            <div class="panel-sub">Stress-test assumptions &amp; capacity constraints in real time</div>
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-sm" onclick="loadSimPreset('base')">Load Base</button>
+            <button class="btn btn-sm btn-primary" onclick="loadSimPreset('stretch')">Load Stretch</button>
+          </div>
+        </div>
+        <div class="slider-row">
+          <div class="slider-head"><span>Warm Prospects (VC/Alumni/Creator/Inbound)</span><span>${s.warmProspects} brands</span></div>
+          <input type="range" min="40" max="160" value="${s.warmProspects}" oninput="updateSim('warmProspects', this.value)">
+        </div>
+        <div class="slider-row">
+          <div class="slider-head"><span>Qualified Meeting Rate</span><span>${s.meetingRate}%</span></div>
+          <input type="range" min="30" max="80" step="0.5" value="${s.meetingRate}" oninput="updateSim('meetingRate', this.value)">
+        </div>
+        <div class="slider-row">
+          <div class="slider-head"><span>Meeting → Proposal Conversion</span><span>${s.proposalRate}%</span></div>
+          <input type="range" min="55" max="95" step="0.5" value="${s.proposalRate}" oninput="updateSim('proposalRate', this.value)">
+        </div>
+        <div class="slider-row">
+          <div class="slider-head"><span>Proposal → Signed Cash Win Rate</span><span>${s.winRate}%</span></div>
+          <input type="range" min="30" max="65" step="0.5" value="${s.winRate}" oninput="updateSim('winRate', this.value)">
+        </div>
+        <div class="slider-row">
+          <div class="slider-head"><span>Average Cash Deal Size (AOV)</span><span>${formatINR(s.avgCashDeal)}</span></div>
+          <input type="range" min="80000" max="180000" step="5000" value="${s.avgCashDeal}" oninput="updateSim('avgCashDeal', this.value)">
+        </div>
+        <div class="slider-row">
+          <div class="slider-head"><span>Pre-Fest Cash Collection Rate (by T-5 Cutoff)</span><span>${s.collectionRate}%</span></div>
+          <input type="range" min="65" max="98" step="0.5" value="${s.collectionRate}" oninput="updateSim('collectionRate', this.value)">
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Projected 2026 Bengaluru Outcome</div>
+          <span class="badge ${signedDeals > 42 ? 'b-stop' : 'b-scale'}">${signedDeals > 42 ? 'Exceeds 42-Slot Inventory Cap!' : 'Within 42-Slot & 4-Rep Cap'}</span>
+        </div>
+        <div class="kpi-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="kpi-card highlight">
+            <div class="kpi-title">Projected Pre-Fest Cash</div>
+            <div class="kpi-value">${formatINR(collectedCash)}</div>
+            <div class="kpi-sub">Base: ₹35.24L · Stretch: ₹50.56L</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Signed Cash Value</div>
+            <div class="kpi-value">${formatINR(signedCash)}</div>
+            <div class="kpi-sub">${signedDeals} cash deals @ ${formatINR(s.avgCashDeal)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Meetings → Proposals</div>
+            <div class="kpi-value">${meetings} → ${proposals}</div>
+            <div class="kpi-sub">From ${totalProspects} total prospects</div>
+          </div>
+          <div class="kpi-card ${signedDeals / 4 > 11 ? 'warn' : ''}">
+            <div class="kpi-title">Deals per Rep (4 Reps)</div>
+            <div class="kpi-value">${(signedDeals / 4).toFixed(1)}</div>
+            <div class="kpi-sub">Target sustainable cap: ≤10/rep</div>
+          </div>
+        </div>
+        <div class="callout-info" style="margin-bottom:0;">
+          <strong>Cash Sensitivity Insight:</strong> Every +5% improvement in Pre-Fest Collection Rate via Bet #1 (60/40 milestone billing + 7% upfront discount) adds <strong>${formatINR(signedCash * 0.05)}</strong> in bank cash before T-5 without needing a single extra prospect.
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Slide 2 Prioritization Matrix — Cash-Adjusted RICE</div>
+        <span class="panel-sub">Total Funded: ₹1.35L (₹15k contingency) · 37 Rep-Weeks + 3 rw Surgical Revival = 40 rw</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Strategic Bet</th><th class="num">R</th><th class="num">I</th><th class="num">C</th><th class="num">E (rw)</th><th class="num">RICE</th><th>Budget</th><th class="num">Base / Stretch Lift</th><th>Decision</th></tr></thead>
+          <tbody>
+            ${riceBets.map(b => `
+              <tr>
+                <td><strong>${b.rank}</strong></td>
+                <td><strong>${b.name}</strong></td>
+                <td class="num">${b.r}</td>
+                <td class="num">${b.i}</td>
+                <td class="num">${b.c}</td>
+                <td class="num">${b.e}</td>
+                <td class="num"><strong>${b.score.toFixed(2)}</strong></td>
+                <td>${b.budget}</td>
+                <td class="num"><strong>${b.base}</strong> / ${b.stretch}</td>
+                <td><span class="badge ${b.dec==='DOUBLE DOWN'?'b-scale':b.dec==='REJECT / KILL'?'b-stop':'b-change'}">${b.dec}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+// =========================================================================
+// 4. MUTATIONS & PERSISTENCE (CRUD Operations)
+// =========================================================================
+function populateCampaignSelects() {
+  const opts = state.campaigns.map(c => `<option value="${c.id}">${c.id} · ${c.name}</option>`).join('');
+  document.getElementById('opp-campaign').innerHTML = opts;
+  document.getElementById('task-campaign').innerHTML = opts;
+}
+
+function openOppModal(id = null) {
+  populateCampaignSelects();
+  const modal = document.getElementById('opp-modal');
+  if (id) {
+    const o = state.opportunities.find(x => x.id === id);
+    document.getElementById('opp-modal-title').textContent = `Edit Opportunity ${o.id}`;
+    document.getElementById('opp-edit-id').value = o.id;
+    document.getElementById('opp-brand').value = o.brand;
+    document.getElementById('opp-industry').value = o.industry;
+    document.getElementById('opp-campaign').value = o.campaignId;
+    document.getElementById('opp-owner').value = o.owner;
+    document.getElementById('opp-stage').value = o.stage;
+    document.getElementById('opp-support').value = o.supportType;
+    document.getElementById('opp-proposed').value = o.proposedValue;
+    document.getElementById('opp-confirmed').value = o.confirmedValue;
+    document.getElementById('opp-collected').value = o.collectedCash;
+    document.getElementById('opp-days').value = o.daysInStage;
+  } else {
+    document.getElementById('opp-modal-title').textContent = 'Add New Sponsorship Opportunity';
+    document.getElementById('opp-edit-id').value = '';
+    document.getElementById('opp-brand').value = '';
+    document.getElementById('opp-stage').value = 'proposal_sent';
+    document.getElementById('opp-support').value = 'cash';
+    document.getElementById('opp-proposed').value = 120000;
+    document.getElementById('opp-confirmed').value = 0;
+    document.getElementById('opp-collected').value = 0;
+    document.getElementById('opp-days').value = 1;
+  }
+  modal.classList.add('open');
+}
+
+function saveOpp() {
+  const editId = document.getElementById('opp-edit-id').value;
+  const brand = document.getElementById('opp-brand').value.trim();
+  if (!brand) return showToast('Please enter a brand name.');
+  const stage = document.getElementById('opp-stage').value;
+  const proposed = Number(document.getElementById('opp-proposed').value) || 0;
+  let confirmed = Number(document.getElementById('opp-confirmed').value) || 0;
+  if (stage === 'confirmed' && confirmed === 0) confirmed = proposed;
+  if (stage !== 'confirmed') confirmed = 0;
+  const collected = Number(document.getElementById('opp-collected').value) || 0;
+
+  const record = {
+    id: editId || ('O' + String(state.opportunities.length + 101).slice(-3)),
+    brand,
+    industry: document.getElementById('opp-industry').value,
+    campaignId: document.getElementById('opp-campaign').value,
+    owner: document.getElementById('opp-owner').value,
+    stage,
+    supportType: document.getElementById('opp-support').value,
+    proposedValue: proposed,
+    confirmedValue: confirmed,
+    collectedCash: collected,
+    bankVerified: collected > 0,
+    daysInStage: Number(document.getElementById('opp-days').value) || 1
+  };
+
+  if (editId) {
+    const idx = state.opportunities.findIndex(x => x.id === editId);
+    state.opportunities[idx] = record;
+    showToast(`Updated ${record.id} (${record.brand}) — analytics recalculated.`);
+  } else {
+    state.opportunities.unshift(record);
+    showToast(`Added ${record.id} (${record.brand}) — analytics recalculated.`);
+  }
+  closeModal('opp-modal');
+  persistState();
+}
+
+function quickStageChange(id, newStage) {
+  const o = state.opportunities.find(x => x.id === id);
+  if (!o) return;
+  o.stage = newStage;
+  if (newStage === 'confirmed' && o.confirmedValue === 0) o.confirmedValue = o.proposedValue;
+  if (newStage !== 'confirmed') { o.confirmedValue = 0; o.collectedCash = 0; }
+  persistState();
+  showToast(`${o.id} (${o.brand}) moved to ${newStage}.`);
+}
+
+function quickCollectedChange(id, val) {
+  const o = state.opportunities.find(x => x.id === id);
+  if (!o) return;
+  o.collectedCash = Math.max(0, Number(val) || 0);
+  o.bankVerified = o.collectedCash > 0;
+  persistState();
+  showToast(`Recorded ${formatINR(o.collectedCash)} bank receipt for ${o.brand}.`);
+}
+
+function deleteOpp(id) {
+  state.opportunities = state.opportunities.filter(x => x.id !== id);
+  persistState();
+  showToast(`Deleted opportunity ${id}.`);
+}
+
+function updateCampaignStatus(id, status) {
+  const c = state.campaigns.find(x => x.id === id);
+  if (c) { c.status = status; persistState(); showToast(`${c.id} status set to ${status}.`); }
+}
+
+function updateCampaignField(id, field, val) {
+  const c = state.campaigns.find(x => x.id === id);
+  if (c) { c[field] = Math.max(0, Number(val) || 0); persistState(); showToast(`Updated ${c.id} ${field}.`); }
+}
+
+function convertLeakedBrand(leakId) {
+  const idx = state.leakedBrands.findIndex(b => b.id === leakId);
+  if (idx === -1) return;
+  const b = state.leakedBrands[idx];
+  const newId = 'O' + String(state.opportunities.length + 1).padStart(3, '0');
+  state.opportunities.unshift({
+    id: newId,
+    brand: b.brand,
+    industry: b.industry,
+    campaignId: b.campaignId,
+    owner: 'Riya Kapoor',
+    stage: 'proposal_sent',
+    supportType: 'cash',
+    proposedValue: b.estValue,
+    confirmedValue: 0,
+    collectedCash: 0,
+    bankVerified: false,
+    daysInStage: 1
+  });
+  state.leakedBrands.splice(idx, 1);
+  persistState();
+  showToast(`Converted ${b.brand} → ${newId} (assigned to Riya Kapoor).`);
+}
+
+function convertAllWarmLeaks() {
+  const warms = state.leakedBrands.filter(b => b.warm);
+  const closers = ['Riya Kapoor', 'Nisha Rao', 'Meera Iyer'];
+  warms.forEach((b, i) => {
+    const newId = 'O' + String(state.opportunities.length + 1).padStart(3, '0');
+    state.opportunities.unshift({
+      id: newId,
+      brand: b.brand,
+      industry: b.industry,
+      campaignId: b.campaignId,
+      owner: closers[i % closers.length],
+      stage: 'proposal_sent',
+      supportType: 'cash',
+      proposedValue: b.estValue,
+      confirmedValue: 0,
+      collectedCash: 0,
+      bankVerified: false,
+      daysInStage: 1
+    });
+  });
+  state.leakedBrands = state.leakedBrands.filter(b => !b.warm);
+  persistState();
+  showToast(`Converted ${warms.length} warm qualified brands into live proposals!`);
+}
+
+function openTaskModal() {
+  populateCampaignSelects();
+  document.getElementById('task-title').value = '';
+  document.getElementById('task-modal').classList.add('open');
+}
+
+function saveTask() {
+  const title = document.getElementById('task-title').value.trim();
+  if (!title) return showToast('Enter a task title.');
+  addTaskRecord({
+    title,
+    owner: document.getElementById('task-owner').value,
+    priority: document.getElementById('task-priority').value,
+    campaignId: document.getElementById('task-campaign').value,
+    due: document.getElementById('task-due').value,
+    cashImpact: Number(document.getElementById('task-impact').value) || 0
+  });
+  closeModal('task-modal');
+}
+
+function addTaskRecord(t) {
+  const id = 'T' + String(state.tasks.length + 1).padStart(2, '0');
+  state.tasks.unshift({ id, status: 'todo', ...t });
+  persistState();
+  showToast(`Created Task ${id}: ${t.title}`);
+  return id;
+}
+
+function updateTaskStatus(id, status) {
+  const t = state.tasks.find(x => x.id === id);
+  if (t) { t.status = status; persistState(); showToast(`Task ${id} marked ${status}.`); }
+}
+function deleteTask(id) {
+  state.tasks = state.tasks.filter(x => x.id !== id);
+  persistState();
+  showToast(`Deleted Task ${id}.`);
+}
+
+function updateSim(key, val) {
+  state.simulator[key] = Number(val);
+  persistState();
+}
+function loadSimPreset(type) {
+  if (type === 'base') {
+    state.simulator = { warmProspects: 92, revivalProspects: 48, meetingRate: 57.1, proposalRate: 81.2, winRate: 49.2, avgCashDeal: 125000, collectionRate: 88.1 };
+  } else {
+    state.simulator = { warmProspects: 118, revivalProspects: 42, meetingRate: 62.5, proposalRate: 84.0, winRate: 47.6, avgCashDeal: 137000, collectionRate: 92.4 };
+  }
+  persistState();
+  showToast(`Loaded 2026 ${type.toUpperCase()} target assumptions.`);
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function openApiModal() {
+  document.getElementById('gemini-key-input').value = localStorage.getItem(API_KEY_STORAGE) || '';
+  document.getElementById('api-modal').classList.add('open');
+}
+function saveApiKey() {
+  const k = document.getElementById('gemini-key-input').value.trim();
+  if (k) {
+    localStorage.setItem(API_KEY_STORAGE, k);
+    updateCopilotBadge();
+    showToast('Gemini API key saved locally.');
+  }
+  closeModal('api-modal');
+}
+function clearApiKey() {
+  localStorage.removeItem(API_KEY_STORAGE);
+  document.getElementById('gemini-key-input').value = '';
+  updateCopilotBadge();
+  showToast('Switched to built-in Local Analytics Engine.');
+  closeModal('api-modal');
+}
+function updateCopilotBadge() {
+  const hasKey = !!localStorage.getItem(API_KEY_STORAGE);
+  document.getElementById('copilot-mode-label').textContent = hasKey
+    ? 'Gemini 2.5 Flash Connected (Grounded in Live App State)'
+    : 'Live State Engine (Zero-Hallucination Local + Optional Gemini)';
+}
+function toggleCopilot() {
+  document.getElementById('copilot-panel').classList.toggle('collapsed');
+}
+function resetDataset() {
+  if (!confirm('Reset all campaigns, opportunities, leaked brands, and tasks back to the original verified 2025 Sponsor Dataset?')) return;
+  state = getInitialData();
+  persistState();
+  showToast('Reset to original verified 2025 Sponsor Dataset.');
+}
+function exportStateJSON() {
+  const blob = new Blob([JSON.stringify({ state, computedAnalytics: computeAnalytics() }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'campusfest_growth_center_state.json';
+  a.click();
+}
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+// =========================================================================
+// 5. EMBEDDED AI GROWTH ANALYST & COPILOT (Grounded + Actionable + Honest)
+// =========================================================================
+function initChat() {
+  chatHistory = [{
+    role: 'bot',
+    text: `Hi! I'm your CampusFest Sponsorship Growth Copilot. I read **live application state** (currently ${state.opportunities.length} opportunities, ${state.campaigns.length} campaigns, ${state.leakedBrands.length} leaked qualified brands, and ${state.tasks.length} tasks).\n\nAsk me to diagnose bottlenecks, run exact calculations after you edit deals, test what the data *cannot* answer, or turn insights into confirmed tasks.`,
+    evidence: 'Live State Connected'
+  }];
+  renderChat();
+}
+
+function clearChat() {
+  lastChatContext = { topic: null, entities: [] };
+  initChat();
+}
+
+function askPreset(q) {
+  document.getElementById('chat-input').value = q;
+  sendChat();
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = '';
+  chatHistory.push({ role: 'user', text: q });
+  renderChat();
+
+  const apiKey = localStorage.getItem(API_KEY_STORAGE);
+  if (apiKey) {
+    chatHistory.push({ role: 'bot', text: 'Analyzing live campaign data with Gemini...', loading: true });
+    renderChat();
+    try {
+      const resp = await queryGeminiLive(q, apiKey);
+      chatHistory.pop();
+      chatHistory.push(resp);
+    } catch (err) {
+      chatHistory.pop();
+      const fallback = runDeterministicCopilot(q);
+      fallback.text = `(Gemini API error: ${err.message} — using live deterministic engine)\n\n` + fallback.text;
+      chatHistory.push(fallback);
+    }
+  } else {
+    const resp = runDeterministicCopilot(q);
+    chatHistory.push(resp);
+  }
+  renderChat();
+}
+
+// Built-in Deterministic Grounded Copilot (handles live mutated data, follow-ups, traps & confirmed actions)
+function runDeterministicCopilot(rawQ) {
+  const q = rawQ.toLowerCase();
+  const a = computeAnalytics();
+
+  // 1. UNCERTAINTY / TRAP GUARDRAILS (Explicitly refuse unsupported causal or missing-data claims)
+  if ((q.includes('beardo') || q.includes('mosaic') || q.includes('maple') || q.includes('activation')) &&
+      (q.includes('attend') || q.includes('visitor') || q.includes('footfall') || q.includes('uplift') || q.includes('increas') || q.includes('roi') || q.includes('drive'))) {
+    lastChatContext = { topic: 'activations', entities: state.meta.activations };
+    return {
+      role: 'bot',
+      text: `**Insufficient Evidence — Cannot Claim Causal Uplift.**\n\nWhile our dataset links 3 confirmed sponsors (**Beardo** ₹2.00L, **Mosaic Mobility** ₹1.15L, **Maple Devices** ₹0.95L) to festival activations, the source data explicitly warns that these are **associations only**—there is no control group or attribution log proving that any sponsor activation increased festival attendance.\n\n**What we CAN verify:** Beardo closed O001 at ₹2.00L cash (Personal care, SC02, Riya Kapoor) and lost secondary opportunity O002 (₹1.50L). For 2026, we should sell measurable QR-coupon/sampling engagement instead of making unverifiable footfall promises.`,
+      evidence: 'Evidence: Sponsor Activations Metadata (causalAttendeeUpliftProven = false)'
+    };
+  }
+
+  if ((q.includes('bank') || q.includes('receipt') || q.includes('actual cash collected') || q.includes('wire') || q.includes('invoice')) && !q.includes('simulator')) {
+    if (!a.hasAnyVerifiedBank) {
+      return {
+        role: 'bot',
+        text: `**Missing Bank Receipt Data in 2025 Baseline.**\n\nThe original 2025 dataset records **reported confirmed face value** (${formatFullINR(a.confirmedCashVal)} cash across ${a.confirmedCashCount} deals + ${formatFullINR(a.confirmedInKindVal)} in-kind across ${a.confirmedInKindCount} deals = ${formatFullINR(a.totalConfirmedVal)}), **NOT verified bank receipts**.\n\n• **Verified Bank Cash Recorded:** ₹0 (no bank transfers entered yet)\n• **Estimated Pre-Fest Cash (Assumption):** ${formatFullINR(a.estPreFestCash)} assuming a 75% collection rate.\n\n**Next Step:** Enter actual wire receipts in the *Bank Collected* column under *Pipeline & Campaigns* and re-ask—I will immediately switch to verified bank totals.`,
+        evidence: 'Evidence vs. Assumption: confirmed_value_inr ≠ bank receipt'
+      };
+    } else {
+      const rate = a.confirmedCashVal ? ((a.verifiedBankCash / a.confirmedCashVal) * 100).toFixed(1) : '0.0';
+      return {
+        role: 'bot',
+        text: `**Live Verified Pre-Fest Bank Cash Collected:** ${formatFullINR(a.verifiedBankCash)}\n\n• **Confirmed Cash Face Value:** ${formatFullINR(a.confirmedCashVal)} (${a.confirmedCashCount} cash deals)\n• **Live Pre-Fest Collection Rate:** ${rate}%\n• **Uncollected Cash Receivable:** ${formatFullINR(Math.max(0, a.confirmedCashVal - a.verifiedBankCash))}\n• **Excluded In-Kind Value:** ${formatFullINR(a.confirmedInKindVal)} (${a.confirmedInKindCount} deals)`,
+        evidence: `Live Calculation across ${a.confirmedCashCount} cash opportunities`
+      };
+    }
+  }
+
+  if (q.includes('instagram') || q.includes('cpc') || q.includes('ctr') || q.includes('weather') || q.includes('competitor') || q.includes('ticket price') || q.includes('roas') || q.includes('attendee age')) {
+    return {
+      role: 'bot',
+      text: `**Data Cannot Answer This Question.**\n\nThis Sponsorship Growth Center tracks B2B brand outreach, qualification, opportunities, cash vs. in-kind deals, budgets, and team tasks. It does **not** contain ad impressions/CPC, attendee demographics, ticket pricing, or competitor spend data.\n\nIf you want to evaluate channel acquisition efficiency using available data, ask me for **Cost per Qualified Brand** or **Confirmed Cash per ₹1 Budget Spent** across SC01–SC06.`,
+      evidence: 'Uncertainty Guardrail: Metric absent from current schema'
+    };
+  }
+
+  // 2. FOLLOW-UP CONTEXT HANDLER ("break that down by rep/owner/campaign", "create tasks for those")
+  if ((q.includes('break') || q.includes('by owner') || q.includes('by rep') || q.includes('those') || q.includes('them')) && lastChatContext.topic === 'stalled') {
+    const stalled = state.opportunities.filter(o => ['negotiating','proposal_sent','contacted','prospecting'].includes(o.stage));
+    const map = {};
+    stalled.forEach(o => {
+      if (!map[o.owner]) map[o.owner] = { count: 0, val: 0, negVal: 0 };
+      map[o.owner].count++;
+      map[o.owner].val += o.proposedValue;
+      if (o.stage === 'negotiating') map[o.owner].negVal += o.proposedValue;
+    });
+    const lines = Object.entries(map).sort((x,y) => y[1].val - x[1].val)
+      .map(([rep, d]) => `• **${rep}:** ${d.count} stalled deals = **${formatINR(d.val)}** (${formatINR(d.negVal)} in negotiating)`).join('\n');
+    return {
+      role: 'bot',
+      text: `**Follow-Up — Stalled Open Pipeline by Owner (${stalled.length} deals, ${formatINR(a.stalledVal)}):**\n\n${lines}\n\n**Recommendation:** Pair Meera Iyer's negotiating deals with Riya Kapoor for 48-hour closing sprints using the 7% upfront cash incentive.`,
+      evidence: `Follow-up live aggregation on ${stalled.length} open opportunities`,
+      action: {
+        type: 'CREATE_TASK',
+        title: 'Run 48h closing sprint on Meera & Nisha stalled negotiating deals',
+        desc: `Creates high-priority task targeting ${formatINR(a.stageCounts.negotiating.val)} in negotiating deals.`,
+        payload: { title: 'Run 48h closing sprint with Riya on stalled negotiating deals', owner: 'Meera Iyer', priority: 'high', campaignId: 'SC03', due: '2026-02-05', cashImpact: a.stageCounts.negotiating.val }
+      }
+    };
+  }
+
+  // 3. WHY DID WE MISS TARGET / DIAGNOSTIC ROOT CAUSE
+  if (q.includes('miss') || q.includes('why') || q.includes('bottleneck') || q.includes('problem') || q.includes('diagnos')) {
+    const gap = state.meta.targets2025.revisedConfirmed - a.confirmedAllCount;
+    const warmCash = a.byCampaign.filter(c => c.type === 'warm').reduce((s,c) => s + c.cashVal, 0);
+    const coldCash = a.byCampaign.filter(c => c.type === 'cold').reduce((s,c) => s + c.cashVal, 0);
+    const coldAttempts = a.byCampaign.filter(c => c.type === 'cold').reduce((s,c) => s + c.attempts, 0);
+    const warmLeaksVal = a.warmLeaks.reduce((s,b) => s + b.estValue, 0);
+    lastChatContext = { topic: 'bottleneck', entities: [] };
+    return {
+      role: 'bot',
+      text: `**Root-Cause Diagnosis (${a.confirmedAllCount} confirmed vs. ${state.meta.targets2025.revisedConfirmed} target — ${gap > 0 ? 'missed by ' + gap : 'target met'}):**\n\n1. **Warm vs. Cold Cliff:** Warm/inbound channels (SC02, SC04, SC05) produced **${formatINR(warmCash)}** cash, while cold channels (SC01, SC03, SC06) burned **${coldAttempts} attempts (${((coldAttempts/Math.max(a.totalAttempts,1))*100).toFixed(1)}% of outreach)** for **${formatINR(coldCash)}** closed and **${formatINR(a.stalledVal)}** stalled.\n2. **Warm Handoff Leakage:** **${a.warmLeaks.length} qualified brands** from 100%-win warm channels (SC04/SC05, est. ${formatINR(warmLeaksVal)}) never had an opportunity created (Kabir Shah held 126 brands / 0 opps).\n3. **Stage Decay Past 14 Days:** ${a.agingAlerts.length} open deals are aged ≥14 days, including **${a.stageCounts.negotiating.count} negotiating deals worth ${formatINR(a.stageCounts.negotiating.val)}**.\n\n*Want me to convert those ${a.warmLeaks.length} leaked warm leads or create a task?*`,
+      evidence: `Live State: ${a.totalOpps} opps, ${a.totalQualified} qualified, ${state.leakedBrands.length} leaked`,
+      action: a.warmLeaks.length > 0 ? {
+        type: 'CONVERT_WARM_LEAKS',
+        title: `Convert ${a.warmLeaks.length} Warm Leaked Brands into Opportunities`,
+        desc: `Immediately creates proposal-stage opportunities for all ${a.warmLeaks.length} SC04/SC05 qualified brands and recalculates pipeline metrics.`,
+        payload: {}
+      } : null
+    };
+  }
+
+  // 4. STALLED DEALS & PRIORITIZATION → TASK CREATION
+  if (q.includes('stalled') || q.includes('aging') || q.includes('prioritiz') || q.includes('negotiating') || q.includes('stuck')) {
+    const negDeals = state.opportunities.filter(o => o.stage === 'negotiating').sort((x,y) => y.proposedValue - x.proposedValue);
+    const top3 = negDeals.slice(0, 4).map(o => `• **${o.id} ${o.brand}** (${o.campaignId}, ${o.owner.split(' ')[0]}): ${formatINR(o.proposedValue)} — aged ${o.daysInStage}d`).join('\n');
+    lastChatContext = { topic: 'stalled', entities: negDeals };
+    return {
+      role: 'bot',
+      text: `**Stalled Open Pipeline Analysis (${a.stalledCount} deals = ${formatINR(a.stalledVal)}):**\n\n• **Negotiating:** ${a.stageCounts.negotiating.count} deals = **${formatINR(a.stageCounts.negotiating.val)}** *(Highest recovery ROI)*\n• **Proposal Sent:** ${a.stageCounts.proposal_sent.count} deals = ${formatINR(a.stageCounts.proposal_sent.val)}\n• **Contacted / Prospecting:** ${a.stageCounts.contacted.count + a.stageCounts.prospecting.count} deals = ${formatINR(a.stageCounts.contacted.val + a.stageCounts.prospecting.val)} *(Auto-archive after 7d)*\n\n**Top Negotiating Deals to Close Now:**\n${top3 || 'No negotiating deals currently open.'}\n\n*Ask a follow-up like "Break down those stalled deals by owner" or confirm the action below.*`,
+      evidence: `Live State: ${a.agingAlerts.length} deals ≥14d aging alert`,
+      action: negDeals.length > 0 ? {
+        type: 'CREATE_TASK',
+        title: `Trigger 7% Upfront Cash Offer on ${negDeals.length} Negotiating Deals`,
+        desc: `Adds an execution task targeting ${formatINR(a.stageCounts.negotiating.val)} in stalled negotiating deals.`,
+        payload: { title: `Send 7% upfront cash fast-track offer to ${negDeals.length} negotiating deals (${formatINR(a.stageCounts.negotiating.val)})`, owner: 'Riya Kapoor', priority: 'high', campaignId: 'SC03', due: '2026-02-01', cashImpact: a.stageCounts.negotiating.val }
+      } : null
+    };
+  }
+
+  // 5. CAMPAIGN COMPARISON / STOP / SCALE
+  if (q.includes('campaign') || q.includes('channel') || q.includes('scale') || q.includes('stop') || q.includes('kill') || q.includes('budget') || q.includes('sc0')) {
+    const rows = a.byCampaign.map(c =>
+      `• **${c.id} ${c.name}** [${c.autoRec}]: **${formatINR(c.cashVal)}** cash (${c.confirmedCashCount} deals, ${c.winRate.toFixed(0)}% win) | ${formatINR(c.stalledVal)} stalled | Spent ${formatINR(c.spent)}/${formatINR(c.budget)}`
+    ).join('\n');
+    lastChatContext = { topic: 'campaigns', entities: a.byCampaign };
+    return {
+      role: 'bot',
+      text: `**Live Campaign Performance & Guardrail Verdicts:**\n\n${rows}\n\n**Total Budget:** ${formatINR(a.totalSpent)} spent of ${formatINR(a.totalBudget)}.\n**Decision:** **Scale** SC05, SC02, SC04 (warm/inbound). **Stop/Kill** SC01 & SC03 cold blasts and reallocate budget to Bengaluru VC Portfolio intros & Creator bundles.`,
+      evidence: `Live Aggregation across ${a.byCampaign.length} campaigns`,
+      action: {
+        type: 'PAUSE_COLD',
+        title: 'Set SC01 & SC03 Status to Stop and Log Reallocation Task',
+        desc: 'Marks underperforming cold campaigns as Stop and logs a budget reallocation task in Execution Board.',
+        payload: {}
+      }
+    };
+  }
+
+  // 6. REP / OWNER PERFORMANCE
+  if (q.includes('rep') || q.includes('owner') || q.includes('riya') || q.includes('nisha') || q.includes('meera') || q.includes('kabir') || q.includes('team')) {
+    const rows = a.byRep.map(r =>
+      `• **${r.owner}:** ${r.opps} opps → **${formatINR(r.cashVal)}** cash (${r.confirmedCashCount} deals), ${formatINR(r.inKindVal)} in-kind (${r.confirmedInKindCount}), ${r.winRate.toFixed(1)}% win, ${formatINR(r.stalledVal)} stalled${r.leakedCount ? ` | ⚠ ${r.leakedCount} leaked qual brands` : ''}`
+    ).join('\n');
+    lastChatContext = { topic: 'reps', entities: a.byRep };
+    return {
+      role: 'bot',
+      text: `**Live Team & Ownership Breakdown:**\n\n${rows}\n\n**Key Bottleneck:** Kabir Shah owned 126 top-of-funnel brands (70%) but 0 opportunities, creating a handoff cliff. Riya Kapoor generated **${a.confirmedCashVal ? ((a.byRep.find(r=>r.owner==='Riya Kapoor')?.cashVal / a.confirmedCashVal)*100).toFixed(1) : 0}%** of confirmed cash with 100% cash mix, while Nisha Rao absorbed all ${a.confirmedInKindCount} in-kind deals.`,
+      evidence: `Live State across ${a.byRep.length} team owners`,
+      action: {
+        type: 'CREATE_TASK',
+        title: 'Rebalance Rep Territory & Enforce <24h Qual→Opp SLA',
+        desc: 'Creates ownership rebalancing task for Kabir Shah & Riya Kapoor.',
+        payload: { title: 'Enforce <24h Qualified-to-Opportunity SLA & rotate warm leads across all 4 reps', owner: 'Kabir Shah', priority: 'high', campaignId: 'SC04', due: '2026-01-26', cashImpact: 600000 }
+      }
+    };
+  }
+
+  // 7. INDUSTRY BREAKDOWN
+  if (q.includes('industry') || q.includes('vertical') || q.includes('sector') || q.includes('bengaluru')) {
+    const rows = a.byIndustry.map(i => `• **${i.industry}:** **${formatINR(i.cashVal)}** (${i.cashCount} cash deals, avg ${formatINR(i.avgCash)}) | ${formatINR(i.stalledVal)} stalled`).join('\n');
+    return {
+      role: 'bot',
+      text: `**Live Cash Revenue by Industry Vertical:**\n\n${rows}\n\n**Bengaluru Fit:** Consumer products, Mobility, F&B, and Personal care represent our strongest cash converters and align directly with Bengaluru's D2C and EV startup density.`,
+      evidence: `Live State across ${a.byIndustry.length} industries`
+    };
+  }
+
+  // 8. SPECIFIC BRAND LOOKUP OR LIVE SUMMARY CALCULATION
+  const matchedOpp = state.opportunities.find(o => q.includes(o.brand.toLowerCase()) || q.includes(o.id.toLowerCase()));
+  if (matchedOpp) {
+    return {
+      role: 'bot',
+      text: `**Deal Record — ${matchedOpp.id}: ${matchedOpp.brand}**\n\n• **Stage:** ${matchedOpp.stage} (${matchedOpp.daysInStage} days)\n• **Campaign / Owner:** ${matchedOpp.campaignId} · ${matchedOpp.owner}\n• **Industry / Type:** ${matchedOpp.industry} · ${matchedOpp.supportType}\n• **Proposed:** ${formatFullINR(matchedOpp.proposedValue)} | **Confirmed:** ${formatFullINR(matchedOpp.confirmedValue)} | **Bank Collected:** ${formatFullINR(matchedOpp.collectedCash)}`,
+      evidence: `Direct record lookup: ${matchedOpp.id}`
+    };
+  }
+
+  // DEFAULT LIVE SUMMARY (Always exact to mutated state)
+  return {
+    role: 'bot',
+    text: `**Live Growth Center Snapshot:**\n\n• **Confirmed Deals:** ${a.confirmedAllCount} total (${a.confirmedCashCount} cash = **${formatFullINR(a.confirmedCashVal)}**, avg ${formatFullINR(a.avgCashDeal)}; ${a.confirmedInKindCount} in-kind = **${formatFullINR(a.confirmedInKindVal)}**)\n• **Pre-Fest Cash:** ${a.hasAnyVerifiedBank ? formatFullINR(a.verifiedBankCash) + ' (verified bank)' : formatFullINR(a.estPreFestCash) + ' (est. @ 75%; bank receipts not recorded in 2025 baseline)'}\n• **Open Stalled Pipeline:** ${a.stalledCount} deals = **${formatFullINR(a.stalledVal)}** (${a.agingAlerts.length} aged ≥14d)\n• **Leaked Qualified Brands:** ${state.leakedBrands.length} (${a.warmLeaks.length} warm SC04/SC05)\n• **Open Tasks:** ${state.tasks.filter(t=>t.status!=='done').length}\n\nTry asking about **campaign ROI**, **rep bottlenecks**, **stalled deals**, **specific brands**, or **Beardo's activation impact**.`,
+    evidence: `Live State Computed (${a.totalOpps} opportunities)`
+  };
+}
+
+// Optional Live Gemini 2.5 Flash Call Grounded in Real-Time State JSON
+async function queryGeminiLive(question, apiKey) {
+  const a = computeAnalytics();
+  const contextPayload = {
+    summary: {
+      confirmedCashVal: a.confirmedCashVal,
+      confirmedCashCount: a.confirmedCashCount,
+      confirmedInKindVal: a.confirmedInKindVal,
+      confirmedInKindCount: a.confirmedInKindCount,
+      verifiedBankCash: a.verifiedBankCash,
+      hasAnyVerifiedBank: a.hasAnyVerifiedBank,
+      estPreFestCashAt75Pct: a.estPreFestCash,
+      stalledCount: a.stalledCount,
+      stalledVal: a.stalledVal,
+      leakedBrandsCount: state.leakedBrands.length,
+      warmLeaksCount: a.warmLeaks.length,
+      targets2025: state.meta.targets2025,
+      targets2026: state.meta.targets2026
+    },
+    campaigns: a.byCampaign,
+    reps: a.byRep,
+    industries: a.byIndustry,
+    stageCounts: a.stageCounts,
+    activationsGuardrail: state.meta.activations,
+    openTasks: state.tasks.filter(t => t.status !== 'done'),
+    topNegotiatingDeals: state.opportunities.filter(o => o.stage === 'negotiating')
+  };
+
+  const sysPrompt = `You are the embedded AI Growth Analyst & Copilot for CampusFest Bengaluru Sponsorship Growth Center.
+STRICT RULES:
+1. Answer ONLY using the LIVE_STATE JSON provided below. Never invent numbers, campaigns, or facts.
+2. Distinguish confirmed_value_inr (reported face value) from verified bank cash collected (hasAnyVerifiedBank). Clearly separate cash from in_kind.
+3. Never claim sponsor activations (Beardo, Mosaic Mobility, Maple Devices) caused incremental attendee uplift—the data explicitly notes association only.
+4. If the data cannot answer a question (e.g., Instagram CPC, competitor spend, weather), explicitly state what is missing.
+5. Keep answers concise, quantitative (in ₹), and actionable.
+6. If recommending a task, append a single line at the very end in exact format: ACTION_TASK::Title|Owner|CampaignID|CashImpactNumber
+
+LIVE_STATE: ${JSON.stringify(contextPayload)}`;
+
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ role: 'user', parts: [{ text: sysPrompt + '\n\nUser Question: ' + question }] }],
+      generationConfig: { temperature: 0.2 }
+    })
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  let text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from Gemini.';
+  let action = null;
+  const match = text.match(/ACTION_TASK::(.+)/);
+  if (match) {
+    text = text.replace(/ACTION_TASK::.+/, '').trim();
+    const parts = match[1].split('|').map(s => s.trim());
+    if (parts.length >= 4) {
+      action = {
+        type: 'CREATE_TASK',
+        title: parts[0],
+        desc: `AI-proposed task for ${parts[1]} (${parts[2]}, Est. ${formatINR(parts[3])})`,
+        payload: { title: parts[0], owner: parts[1] || 'Riya Kapoor', priority: 'high', campaignId: parts[2] || 'SC04', due: '2026-02-05', cashImpact: Number(parts[3]) || 100000 }
+      };
+    }
+  }
+  return { role: 'bot', text, evidence: 'Gemini 2.5 Flash · Grounded in Live State JSON', action };
+}
+
+function confirmCopilotAction(msgIndex) {
+  const msg = chatHistory[msgIndex];
+  if (!msg || !msg.action || msg.actionExecuted) return;
+  const act = msg.action;
+  if (act.type === 'CREATE_TASK') {
+    const id = addTaskRecord(act.payload);
+    msg.actionExecuted = `✓ Confirmed & Created Task ${id} in Execution Board`;
+  } else if (act.type === 'CONVERT_WARM_LEAKS') {
+    const cnt = state.leakedBrands.filter(b => b.warm).length;
+    convertAllWarmLeaks();
+    msg.actionExecuted = `✓ Confirmed & Converted ${cnt} Warm Qualified Brands to Opportunities`;
+  } else if (act.type === 'PAUSE_COLD') {
+    updateCampaignStatus('SC01', 'Stop');
+    updateCampaignStatus('SC03', 'Stop');
+    const id = addTaskRecord({ title: 'Reallocate paused SC01/SC03 budgets to Bengaluru VC Portfolio Desk', owner: 'Sathi Eswar', priority: 'high', campaignId: 'SC02', due: '2026-01-25', cashImpact: 350000 });
+    msg.actionExecuted = `✓ Confirmed: Paused SC01 & SC03 + Created Task ${id}`;
+  }
+  renderChat();
+}
+
+function dismissCopilotAction(msgIndex) {
+  if (chatHistory[msgIndex]) {
+    chatHistory[msgIndex].actionExecuted = 'Dismissed by user.';
+    renderChat();
+  }
+}
+
+function formatMd(str) {
+  return str
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>');
+}
+
+function renderChat() {
+  const box = document.getElementById('chat-messages');
+  box.innerHTML = chatHistory.map((m, idx) => `
+    <div class="msg ${m.role}">
+      <div>${formatMd(m.text)}</div>
+      ${m.evidence ? `<div class="evidence-tag">${m.evidence}</div>` : ''}
+      ${m.action && !m.actionExecuted ? `
+        <div class="action-card">
+          <div class="action-card-title">Proposed Action (Requires Confirmation)</div>
+          <div class="action-card-desc"><strong>${m.action.title}</strong><br>${m.action.desc}</div>
+          <div class="action-card-btns">
+            <button class="btn btn-primary btn-sm" onclick="confirmCopilotAction(${idx})">Confirm &amp; Execute</button>
+            <button class="btn btn-sm" onclick="dismissCopilotAction(${idx})">Dismiss</button>
+          </div>
+        </div>
+      ` : ''}
+      ${m.actionExecuted ? `<div style="margin-top:6px;font-size:11px;font-weight:700;color:var(--success);">${m.actionExecuted}</div>` : ''}
+    </div>
+  `).join('');
+  box.scrollTop = box.scrollHeight;
+}
+
+// Boot
+updateCopilotBadge();
+initChat();
+renderAll();
+</script>
+</body>
+</html>
