@@ -1,3 +1,4 @@
+https://campusfest-growth-center-ten.vercel.app
 # CampusFest Bengaluru 2026 — Sponsorship Growth Strategy & Command Center
 **Candidate:** Sathi Eswar Prasad Reddy  
 **Selected Track:** Challenge B — Sponsorship Growth (Maximize Pre-Fest Sponsorship Cash Collected)  
